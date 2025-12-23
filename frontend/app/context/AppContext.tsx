@@ -152,6 +152,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         setCurrentProfile,
         profiles,
         refreshProfiles,
+        deleteProfile,
         medications,
         refreshMedications,
         alarms,
