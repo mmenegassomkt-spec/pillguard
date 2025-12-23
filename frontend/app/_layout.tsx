@@ -1,8 +1,27 @@
 import { Stack } from 'expo-router';
 import { COLORS } from './utils/constants';
 import { AppProvider } from './context/AppContext';
+import { useEffect } from 'react';
+import * as Notifications from 'expo-notifications';
+import { useRouter } from 'expo-router';
 
 export default function RootLayout() {
+  const router = useRouter();
+
+  useEffect(() => {
+    // Listener para quando o usuário toca na notificação
+    const subscription = Notifications.addNotificationResponseReceivedListener(response => {
+      const data = response.notification.request.content.data;
+      
+      if (data.alarmId) {
+        // Navegar para tela de confirmação
+        router.push(`/alarm-confirm?alarmId=${data.alarmId}`);
+      }
+    });
+
+    return () => subscription.remove();
+  }, []);
+
   return (
     <AppProvider>
       <Stack
@@ -38,6 +57,13 @@ export default function RootLayout() {
           name="add-alarm" 
           options={{ 
             headerShown: false,
+          }} 
+        />
+        <Stack.Screen 
+          name="alarm-confirm" 
+          options={{ 
+            headerShown: false,
+            presentation: 'fullScreenModal',
           }} 
         />
         <Stack.Screen 
