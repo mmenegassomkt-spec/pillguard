@@ -122,55 +122,6 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const refreshProfiles = async () => {
-    try {
-      const data = await api.getProfiles();
-      setProfiles(data);
-    } catch (error) {
-      console.error('Error fetching profiles:', error);
-    }
-  };
-
-  const refreshMedications = async () => {
-    if (!currentProfile) return;
-    try {
-      const data = await api.getMedications(currentProfile.id);
-      setMedications(data);
-    } catch (error) {
-      console.error('Error fetching medications:', error);
-    }
-  };
-
-  const refreshAlarms = async () => {
-    if (!currentProfile) return;
-    try {
-      const data = await api.getAlarms(currentProfile.id);
-      setAlarms(data);
-    } catch (error) {
-      console.error('Error fetching alarms:', error);
-    }
-  };
-
-  const refreshPremiumTrial = async () => {
-    if (!currentProfile) return;
-    try {
-      const data = await api.getPremiumTrial(currentProfile.id);
-      setPremiumTrial(data);
-    } catch (error) {
-      console.error('Error fetching premium trial:', error);
-    }
-  };
-
-  const refreshStats = async () => {
-    if (!currentProfile) return;
-    try {
-      const data = await api.getStats(currentProfile.id);
-      setStats(data);
-    } catch (error) {
-      console.error('Error fetching stats:', error);
-    }
-  };
-
   return (
     <AppContext.Provider
       value={{
