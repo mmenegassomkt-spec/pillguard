@@ -10,6 +10,7 @@ import { Button } from './components/Button';
 import { ProfileHeader } from './components/ProfileHeader';
 import { useApp } from './context/AppContext';
 import { Medication } from './types';
+import { NotificationService } from './services/NotificationService';
 
 export default function AddAlarmScreen() {
   const router = useRouter();
