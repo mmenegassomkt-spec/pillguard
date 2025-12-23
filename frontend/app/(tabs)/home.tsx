@@ -176,29 +176,6 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
   },
-  header: {
-    backgroundColor: COLORS.primary,
-    padding: 20,
-    paddingTop: 16,
-    paddingBottom: 24,
-  },
-  profileInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  avatar: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 16,
-  },
-  greeting: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: COLORS.white,
-  },
   statsContainer: {
     flexDirection: 'row',
     padding: 16,
