@@ -11,13 +11,15 @@ import { api } from './utils/api';
 export default function Index() {
   const { profiles, currentProfile, setCurrentProfile, refreshProfiles, loading } = useApp();
   const router = useRouter();
+  const [hasRedirected, setHasRedirected] = React.useState(false);
 
   useEffect(() => {
-    if (currentProfile) {
+    if (currentProfile && !hasRedirected) {
       // Se já tem perfil selecionado, vai para a home
+      setHasRedirected(true);
       router.replace('/(tabs)/home');
     }
-  }, [currentProfile]);
+  }, [currentProfile, hasRedirected]);
 
   useEffect(() => {
     // Refresh profiles only once on mount
