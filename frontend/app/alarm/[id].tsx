@@ -47,6 +47,11 @@ export default function AlarmDetailScreen() {
     }
   };
 
+  const handleTestAlarm = () => {
+    // Simular alarme tocando - navegar para tela de confirmação
+    router.push(`/alarm-confirm?alarmId=${alarm?.id}`);
+  };
+
   const handleDelete = () => {
     Alert.alert(
       'Confirmar exclusão',
