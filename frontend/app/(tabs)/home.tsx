@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useApp } from '../context/AppContext';
+import { ProfileHeader } from '../components/ProfileHeader';
 import { COLORS } from '../utils/constants';
 import { format } from 'date-fns';
 
