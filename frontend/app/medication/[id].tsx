@@ -1,0 +1,429 @@
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, Image } from 'react-native';
+import { useRouter, useLocalSearchParams } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useApp } from '../context/AppContext';
+import { Medication } from '../types';
+import { COLORS, PRIORITY_COLORS } from '../utils/constants';
+import { api } from '../utils/api';
+import { Button } from '../components/Button';
+
+export default function MedicationDetailScreen() {
+  const { id } = useLocalSearchParams();
+  const router = useRouter();
+  const { refreshMedications } = useApp();
+  const [medication, setMedication] = useState<Medication | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadMedication();
+  }, [id]);
+
+  const loadMedication = async () => {
+    try {
+      const data = await api.getMedication(id as string);
+      setMedication(data);
+    } catch (error) {
+      console.error('Error loading medication:', error);
+      Alert.alert('Erro', 'Não foi possível carregar o medicamento');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = () => {
+    Alert.alert(
+      'Confirmar exclusão',
+      'Tem certeza que deseja excluir este medicamento?',
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Excluir',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await api.deleteMedication(id as string);
+              await refreshMedications();
+              Alert.alert('Sucesso', 'Medicamento excluído');
+              router.back();
+            } catch (error) {
+              Alert.alert('Erro', 'Não foi possível excluir o medicamento');
+            }
+          },
+        },
+      ]
+    );
+  };
+
+  const handleUpdateStock = async (increment: number) => {
+    if (!medication) return;
+    const newStock = Math.max(0, medication.stock_quantity + increment);
+    try {
+      await api.updateMedication(medication.id, { stock_quantity: newStock });
+      await loadMedication();
+      await refreshMedications();
+    } catch (error) {
+      Alert.alert('Erro', 'Não foi possível atualizar o estoque');
+    }
+  };
+
+  if (loading) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.loadingContainer}>
+          <Text>Carregando...</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+  if (!medication) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.errorContainer}>
+          <Ionicons name="alert-circle" size={64} color={COLORS.critical} />
+          <Text style={styles.errorText}>Medicamento não encontrado</Text>
+          <Button title="Voltar" onPress={() => router.back()} />
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+  const priorityColor = PRIORITY_COLORS[medication.priority];
+  const isLowStock = medication.stock_quantity <= medication.min_stock_alert;
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+          <Ionicons name="arrow-back" size={24} color={COLORS.text} />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Detalhes</Text>
+        <TouchableOpacity onPress={handleDelete} style={styles.deleteButton}>
+          <Ionicons name="trash" size={24} color={COLORS.critical} />
+        </TouchableOpacity>
+      </View>
+
+      <ScrollView style={styles.scrollView}>
+        <View style={styles.content}>
+          {/* Nome e Prioridade */}
+          <View style={[styles.mainCard, { borderLeftColor: priorityColor, borderLeftWidth: 6 }]}>
+            <View style={styles.titleRow}>
+              <Ionicons name="medical" size={32} color={priorityColor} />
+              <View style={styles.titleInfo}>
+                <Text style={styles.medName}>{medication.name}</Text>
+                <Text style={styles.dosage}>{medication.dosage}</Text>
+              </View>
+              {medication.priority !== 'normal' && (
+                <View style={[styles.priorityBadge, { backgroundColor: priorityColor }]}>
+                  <Text style={styles.badgeText}>{medication.priority.toUpperCase()}</Text>
+                </View>
+              )}
+            </View>
+          </View>
+
+          {/* Estoque */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Estoque</Text>
+            <View style={[styles.stockCard, isLowStock && styles.lowStockCard]}>
+              <View style={styles.stockInfo}>
+                <Ionicons 
+                  name={isLowStock ? "warning" : "cube"} 
+                  size={32} 
+                  color={isLowStock ? COLORS.warning : COLORS.primary} 
+                />
+                <View style={styles.stockTextContainer}>
+                  <Text style={styles.stockNumber}>{medication.stock_quantity}</Text>
+                  <Text style={styles.stockLabel}>unidades</Text>
+                  {isLowStock && (
+                    <Text style={styles.lowStockWarning}>Estoque baixo!</Text>
+                  )}
+                </View>
+              </View>
+              <View style={styles.stockControls}>
+                <TouchableOpacity 
+                  style={styles.stockButton}
+                  onPress={() => handleUpdateStock(-1)}
+                >
+                  <Ionicons name="remove" size={24} color={COLORS.white} />
+                </TouchableOpacity>
+                <TouchableOpacity 
+                  style={[styles.stockButton, { backgroundColor: COLORS.success }]}
+                  onPress={() => handleUpdateStock(1)}
+                >
+                  <Ionicons name="add" size={24} color={COLORS.white} />
+                </TouchableOpacity>
+              </View>
+            </View>
+            <Text style={styles.alertThreshold}>
+              Alerta configurado para {medication.min_stock_alert} unidades
+            </Text>
+          </View>
+
+          {/* Informações do Médico */}
+          {(medication.doctor_name || medication.doctor_contact) && (
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Médico Responsável</Text>
+              <View style={styles.infoCard}>
+                {medication.doctor_name && (
+                  <View style={styles.infoRow}>
+                    <Ionicons name="person" size={20} color={COLORS.primary} />
+                    <Text style={styles.infoText}>{medication.doctor_name}</Text>
+                  </View>
+                )}
+                {medication.doctor_contact && (
+                  <View style={styles.infoRow}>
+                    <Ionicons name="call" size={20} color={COLORS.primary} />
+                    <Text style={styles.infoText}>{medication.doctor_contact}</Text>
+                  </View>
+                )}
+              </View>
+            </View>
+          )}
+
+          {/* Fotos */}
+          {(medication.prescription_photo || medication.box_photo) && (
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Fotos</Text>
+              {medication.prescription_photo && (
+                <View style={styles.photoContainer}>
+                  <Text style={styles.photoLabel}>Receita Médica</Text>
+                  <Image 
+                    source={{ uri: medication.prescription_photo }} 
+                    style={styles.photo}
+                    resizeMode="contain"
+                  />
+                </View>
+              )}
+              {medication.box_photo && (
+                <View style={styles.photoContainer}>
+                  <Text style={styles.photoLabel}>Caixa do Medicamento</Text>
+                  <Image 
+                    source={{ uri: medication.box_photo }} 
+                    style={styles.photo}
+                    resizeMode="contain"
+                  />
+                </View>
+              )}
+            </View>
+          )}
+
+          {/* Tipo */}
+          <View style={styles.section}>
+            <View style={styles.infoCard}>
+              <Ionicons 
+                name={medication.is_prescription_required ? "document-text" : "medkit"} 
+                size={20} 
+                color={COLORS.primary} 
+              />
+              <Text style={styles.infoText}>
+                {medication.is_prescription_required ? 'Com receita' : 'Sem receita'}
+              </Text>
+            </View>
+          </View>
+
+          {/* Botão de exclusão */}
+          <Button
+            title="Excluir Medicamento"
+            onPress={handleDelete}
+            variant="danger"
+            style={styles.deleteButtonBottom}
+          />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: COLORS.background,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 16,
+    backgroundColor: COLORS.white,
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.border,
+  },
+  backButton: {
+    padding: 4,
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: COLORS.text,
+  },
+  deleteButton: {
+    padding: 4,
+  },
+  scrollView: {
+    flex: 1,
+  },
+  content: {
+    padding: 20,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 40,
+  },
+  errorText: {
+    fontSize: 18,
+    color: COLORS.text,
+    marginTop: 16,
+    marginBottom: 24,
+  },
+  mainCard: {
+    backgroundColor: COLORS.white,
+    borderRadius: 12,
+    padding: 20,
+    marginBottom: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  titleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  titleInfo: {
+    flex: 1,
+  },
+  medName: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: COLORS.text,
+    marginBottom: 4,
+  },
+  dosage: {
+    fontSize: 16,
+    color: COLORS.textLight,
+  },
+  priorityBadge: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 12,
+  },
+  badgeText: {
+    color: COLORS.white,
+    fontSize: 11,
+    fontWeight: '700',
+  },
+  section: {
+    marginBottom: 24,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: COLORS.text,
+    marginBottom: 12,
+  },
+  stockCard: {
+    backgroundColor: COLORS.white,
+    borderRadius: 12,
+    padding: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  lowStockCard: {
+    borderWidth: 2,
+    borderColor: COLORS.warning,
+  },
+  stockInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+    gap: 16,
+  },
+  stockTextContainer: {
+    flex: 1,
+  },
+  stockNumber: {
+    fontSize: 36,
+    fontWeight: '700',
+    color: COLORS.text,
+  },
+  stockLabel: {
+    fontSize: 14,
+    color: COLORS.textLight,
+  },
+  lowStockWarning: {
+    fontSize: 14,
+    color: COLORS.warning,
+    fontWeight: '600',
+    marginTop: 4,
+  },
+  stockControls: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  stockButton: {
+    flex: 1,
+    backgroundColor: COLORS.primary,
+    borderRadius: 12,
+    padding: 16,
+    alignItems: 'center',
+  },
+  alertThreshold: {
+    fontSize: 12,
+    color: COLORS.textLight,
+    marginTop: 8,
+    textAlign: 'center',
+  },
+  infoCard: {
+    backgroundColor: COLORS.white,
+    borderRadius: 12,
+    padding: 16,
+    gap: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  infoRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  infoText: {
+    fontSize: 16,
+    color: COLORS.text,
+  },
+  photoContainer: {
+    marginBottom: 16,
+  },
+  photoLabel: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: COLORS.text,
+    marginBottom: 8,
+  },
+  photo: {
+    width: '100%',
+    height: 200,
+    borderRadius: 12,
+    backgroundColor: COLORS.border,
+  },
+  deleteButtonBottom: {
+    marginTop: 16,
+    marginBottom: 40,
+  },
+});
