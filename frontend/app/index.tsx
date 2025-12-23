@@ -3,12 +3,12 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, ActivityIn
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { AppProvider, useApp } from './context/AppContext';
+import { useApp } from './context/AppContext';
 import { LoadingScreen } from './components/LoadingScreen';
 import { COLORS, PROFILE_COLORS } from './utils/constants';
 import { api } from './utils/api';
 
-function ProfileSelectorContent() {
+export default function Index() {
   const { profiles, currentProfile, setCurrentProfile, refreshProfiles, loading } = useApp();
   const router = useRouter();
 
@@ -76,14 +76,6 @@ function ProfileSelectorContent() {
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
-  );
-}
-
-export default function Index() {
-  return (
-    <AppProvider>
-      <ProfileSelectorContent />
-    </AppProvider>
   );
 }
 
