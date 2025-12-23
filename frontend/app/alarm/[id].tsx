@@ -189,6 +189,14 @@ export default function AlarmDetailScreen() {
             </TouchableOpacity>
           </View>
 
+          {/* Botão de teste */}
+          <Button
+            title="🔔 Testar Alarme Agora"
+            onPress={handleTestAlarm}
+            variant="primary"
+            style={styles.testButton}
+          />
+
           {/* Botão de exclusão */}
           <Button
             title="Excluir Alarme"
