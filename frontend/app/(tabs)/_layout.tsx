@@ -2,12 +2,16 @@ import React from 'react';
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '../utils/constants';
-import { Platform, View, Text, StyleSheet } from 'react-native';
+import { Platform, View, Text, StyleSheet, Image } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const LogoHeader = () => (
   <View style={styles.logoContainer}>
-    <Text style={styles.logoText}>PG</Text>
+    <Image 
+      source={require('../../assets/images/pillguard-logo.png')} 
+      style={styles.logoImage}
+      resizeMode="contain"
+    />
   </View>
 );
 
