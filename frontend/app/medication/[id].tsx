@@ -334,6 +334,13 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: COLORS.primary,
   },
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: COLORS.white,
+    flex: 1,
+    textAlign: 'center',
+  },
   backButton: {
     padding: 4,
   },
@@ -366,27 +373,32 @@ const styles = StyleSheet.create({
   mainCard: {
     backgroundColor: COLORS.white,
     borderRadius: 12,
-    padding: 20,
-    marginBottom: 24,
+    padding: 12,
+    marginBottom: 20,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
   },
-  titleRow: {
+  cardHeader: {
     flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
+    alignItems: 'flex-start',
   },
-  titleInfo: {
+  cardContent: {
+    marginLeft: 10,
     flex: 1,
   },
   nameContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    marginBottom: 4,
+    marginBottom: 2,
+  },
+  dosageRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   dosageContainer: {
     flexDirection: 'row',
@@ -399,8 +411,8 @@ const styles = StyleSheet.create({
   editInput: {
     backgroundColor: COLORS.background,
     borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
+    padding: 10,
+    fontSize: 14,
     borderWidth: 1,
     borderColor: COLORS.primary,
     marginBottom: 8,
@@ -424,24 +436,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   medName: {
-    fontSize: 24,
-    fontWeight: '700',
+    fontSize: 16,
+    fontWeight: '600',
     color: COLORS.text,
-    marginBottom: 4,
   },
   dosage: {
-    fontSize: 16,
+    fontSize: 13,
     color: COLORS.textLight,
   },
   priorityBadge: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 12,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 10,
+    marginLeft: 8,
   },
   badgeText: {
     color: COLORS.white,
-    fontSize: 11,
-    fontWeight: '700',
+    fontSize: 10,
+    fontWeight: '600',
   },
   section: {
     marginBottom: 24,
