@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, Image } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, Image, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -15,6 +15,10 @@ export default function MedicationDetailScreen() {
   const { refreshMedications } = useApp();
   const [medication, setMedication] = useState<Medication | null>(null);
   const [loading, setLoading] = useState(true);
+  const [editingName, setEditingName] = useState(false);
+  const [editedName, setEditedName] = useState('');
+  const [editedDosage, setEditedDosage] = useState('');
+  const [editingDosage, setEditingDosage] = useState(false);
 
   useEffect(() => {
     loadMedication();
@@ -24,11 +28,39 @@ export default function MedicationDetailScreen() {
     try {
       const data = await api.getMedication(id as string);
       setMedication(data);
+      setEditedName(data.name);
+      setEditedDosage(data.dosage);
     } catch (error) {
       console.error('Error loading medication:', error);
       Alert.alert('Erro', 'Não foi possível carregar o medicamento');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSaveName = async () => {
+    if (!medication || !editedName.trim()) return;
+    try {
+      await api.updateMedication(medication.id, { name: editedName.trim() });
+      await loadMedication();
+      await refreshMedications();
+      setEditingName(false);
+      Alert.alert('Sucesso', 'Nome atualizado');
+    } catch (error) {
+      Alert.alert('Erro', 'Não foi possível atualizar o nome');
+    }
+  };
+
+  const handleSaveDosage = async () => {
+    if (!medication || !editedDosage.trim()) return;
+    try {
+      await api.updateMedication(medication.id, { dosage: editedDosage.trim() });
+      await loadMedication();
+      await refreshMedications();
+      setEditingDosage(false);
+      Alert.alert('Sucesso', 'Dosagem atualizada');
+    } catch (error) {
+      Alert.alert('Erro', 'Não foi possível atualizar a dosagem');
     }
   };
 
