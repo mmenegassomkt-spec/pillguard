@@ -151,7 +151,7 @@ export default function HomeScreen() {
             style={[styles.actionButton, { backgroundColor: COLORS.success }]}
             onPress={() => router.push('/add-alarm')}
           >
-            <Ionicons name="alarm-add" size={24} color={COLORS.white} />
+            <Ionicons name="add-circle" size={24} color={COLORS.white} />
             <Text style={styles.actionButtonText}>Novo Alarme</Text>
           </TouchableOpacity>
         </View>
