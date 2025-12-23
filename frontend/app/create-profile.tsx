@@ -6,9 +6,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS, PROFILE_COLORS, PROFILE_AVATARS } from './utils/constants';
 import { api } from './utils/api';
 import { Button } from './components/Button';
+import { useApp } from './context/AppContext';
 
 export default function CreateProfileScreen() {
   const router = useRouter();
+  const { refreshProfiles } = useApp();
   const [name, setName] = useState('');
   const [selectedColor, setSelectedColor] = useState(PROFILE_COLORS[0]);
   const [selectedAvatar, setSelectedAvatar] = useState(PROFILE_AVATARS[0]);
@@ -27,6 +29,7 @@ export default function CreateProfileScreen() {
         color: selectedColor,
         avatar: selectedAvatar,
       });
+      await refreshProfiles(); // Atualiza a lista de perfis
       Alert.alert('Sucesso!', 'Perfil criado com sucesso');
       router.back();
     } catch (error) {
