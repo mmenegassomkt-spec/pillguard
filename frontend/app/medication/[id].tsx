@@ -378,6 +378,47 @@ const styles = StyleSheet.create({
   titleInfo: {
     flex: 1,
   },
+  nameContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 4,
+  },
+  dosageContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  editContainer: {
+    marginBottom: 8,
+  },
+  editInput: {
+    backgroundColor: COLORS.background,
+    borderRadius: 8,
+    padding: 12,
+    fontSize: 16,
+    borderWidth: 1,
+    borderColor: COLORS.primary,
+    marginBottom: 8,
+  },
+  editActions: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  saveButton: {
+    backgroundColor: COLORS.success,
+    borderRadius: 8,
+    padding: 10,
+    flex: 1,
+    alignItems: 'center',
+  },
+  cancelButton: {
+    backgroundColor: COLORS.critical,
+    borderRadius: 8,
+    padding: 10,
+    flex: 1,
+    alignItems: 'center',
+  },
   medName: {
     fontSize: 24,
     fontWeight: '700',
