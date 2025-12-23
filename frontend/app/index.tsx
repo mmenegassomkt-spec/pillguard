@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, ActivityIndicator, Image } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -9,7 +9,7 @@ import { COLORS, PROFILE_COLORS } from './utils/constants';
 import { api } from './utils/api';
 
 export default function Index() {
-  const { profiles, currentProfile, setCurrentProfile, refreshProfiles, loading } = useApp();
+  const { profiles, currentProfile, setCurrentProfile, refreshProfiles, loading, deleteProfile } = useApp();
   const router = useRouter();
   const [hasRedirected, setHasRedirected] = React.useState(false);
 
@@ -34,6 +34,28 @@ export default function Index() {
     }
   };
 
+  const handleDeleteProfile = (profileId: string, profileName: string) => {
+    Alert.alert(
+      'Remover Perfil',
+      `Tem certeza que deseja remover o perfil "${profileName}"?\n\nTodos os medicamentos e alarmes deste perfil serão excluídos.`,
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        { 
+          text: 'Remover', 
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await deleteProfile(profileId);
+              Alert.alert('Sucesso', 'Perfil removido com sucesso!');
+            } catch (error) {
+              Alert.alert('Erro', 'Não foi possível remover o perfil.');
+            }
+          }
+        },
+      ]
+    );
+  };
+
   const handleCreateProfile = () => {
     router.push('/create-profile');
   };
@@ -45,25 +67,37 @@ export default function Index() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Ionicons name="medical" size={48} color={COLORS.primary} />
-        <Text style={styles.title}>Controle de Medicamentos</Text>
+        <Image 
+          source={require('../assets/images/pillguard-logo-color.png')} 
+          style={styles.logo}
+          resizeMode="contain"
+        />
+        <Text style={styles.title}>PillGuard</Text>
         <Text style={styles.subtitle}>Selecione um perfil para começar</Text>
       </View>
 
       <ScrollView style={styles.profileList} contentContainerStyle={styles.profileListContent}>
         {profiles.map((profile, index) => (
-          <TouchableOpacity
-            key={profile.id}
-            style={[styles.profileCard, { borderLeftColor: profile.color, borderLeftWidth: 6 }]}
-            onPress={() => handleSelectProfile(profile.id)}
-            activeOpacity={0.7}
-          >
-            <View style={[styles.avatar, { backgroundColor: profile.color }]}>
-              <Ionicons name={profile.avatar as any || 'person'} size={32} color={COLORS.white} />
-            </View>
-            <Text style={styles.profileName}>{profile.name}</Text>
-            <Ionicons name="chevron-forward" size={24} color={COLORS.textLight} />
-          </TouchableOpacity>
+          <View key={profile.id} style={[styles.profileCard, { borderLeftColor: profile.color, borderLeftWidth: 6 }]}>
+            <TouchableOpacity
+              style={styles.profileContent}
+              onPress={() => handleSelectProfile(profile.id)}
+              activeOpacity={0.7}
+            >
+              <View style={[styles.avatar, { backgroundColor: profile.color }]}>
+                <Ionicons name={profile.avatar as any || 'person'} size={32} color={COLORS.white} />
+              </View>
+              <Text style={styles.profileName}>{profile.name}</Text>
+              <Ionicons name="chevron-forward" size={24} color={COLORS.textLight} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.deleteButton}
+              onPress={() => handleDeleteProfile(profile.id, profile.name)}
+              activeOpacity={0.7}
+            >
+              <Ionicons name="trash-outline" size={22} color={COLORS.critical} />
+            </TouchableOpacity>
+          </View>
         ))}
 
         <TouchableOpacity
