@@ -82,17 +82,6 @@ export default function AddAlarmScreen() {
       return;
     }
 
-    // Solicitar permissões de notificação
-    const hasPermission = await NotificationService.requestPermissions();
-    if (!hasPermission) {
-      Alert.alert(
-        'Permissão negada',
-        'É necessário permitir notificações para que os alarmes funcionem. Por favor, habilite nas configurações do dispositivo.',
-        [{ text: 'OK' }]
-      );
-      return;
-    }
-
     setLoading(true);
     try {
       const alarmData = await api.createAlarm({
@@ -106,17 +95,14 @@ export default function AddAlarmScreen() {
         is_active: true,
       });
       
-      // Agendar notificações
-      const alarmMeds = medications.filter(med => selectedMedications.includes(med.id));
-      await NotificationService.scheduleAlarmNotification(alarmData, alarmMeds);
-      
       await refreshAlarms();
+      
       Alert.alert(
-        'Sucesso!', 
-        'Alarme criado e notificações agendadas!',
+        'Alarme Criado!', 
+        '⚠️ IMPORTANTE: Notificações automáticas requerem um build de desenvolvimento.\n\nNo Expo Go, você pode:\n• Ver seus alarmes na lista\n• Testar manualmente clicando no alarme',
         [
           {
-            text: 'OK',
+            text: 'Entendi',
             onPress: () => router.back(),
           },
         ]
