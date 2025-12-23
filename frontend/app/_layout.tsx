@@ -4,22 +4,30 @@ import { AppProvider } from './context/AppContext';
 import { useEffect } from 'react';
 import * as Notifications from 'expo-notifications';
 import { useRouter } from 'expo-router';
+import { Platform } from 'react-native';
 
 export default function RootLayout() {
   const router = useRouter();
 
   useEffect(() => {
-    // Listener para quando o usuário toca na notificação
-    const subscription = Notifications.addNotificationResponseReceivedListener(response => {
-      const data = response.notification.request.content.data;
-      
-      if (data.alarmId) {
-        // Navegar para tela de confirmação
-        router.push(`/alarm-confirm?alarmId=${data.alarmId}`);
-      }
-    });
+    // Só adiciona listener de notificações em plataformas nativas
+    if (Platform.OS === 'web') return;
+    
+    try {
+      // Listener para quando o usuário toca na notificação
+      const subscription = Notifications.addNotificationResponseReceivedListener(response => {
+        const data = response.notification.request.content.data;
+        
+        if (data.alarmId) {
+          // Navegar para tela de confirmação
+          router.push(`/alarm-confirm?alarmId=${data.alarmId}`);
+        }
+      });
 
-    return () => subscription.remove();
+      return () => subscription.remove();
+    } catch (error) {
+      console.log('Notifications not supported:', error);
+    }
   }, []);
 
   return (
