@@ -55,29 +55,41 @@ export default function HomeScreen() {
         {/* Stats */}
         {stats && (
           <View style={styles.statsContainer}>
-            <View style={styles.statCard}>
+            <TouchableOpacity 
+              style={styles.statCard}
+              onPress={() => router.push('/(tabs)/medications')}
+              activeOpacity={0.7}
+            >
               <View style={styles.statHeader}>
                 <Ionicons name="medkit" size={24} color={COLORS.primary} />
                 <Text style={styles.statNumber}>{stats.medications_count}</Text>
               </View>
               <Text style={styles.statLabel}>Medicamentos</Text>
-            </View>
+            </TouchableOpacity>
             
-            <View style={styles.statCard}>
+            <TouchableOpacity 
+              style={styles.statCard}
+              onPress={() => router.push('/(tabs)/alarms')}
+              activeOpacity={0.7}
+            >
               <View style={styles.statHeader}>
                 <Ionicons name="alarm" size={24} color={COLORS.primary} />
                 <Text style={styles.statNumber}>{stats.alarms_count}</Text>
               </View>
               <Text style={styles.statLabel}>Alarmes Ativos</Text>
-            </View>
+            </TouchableOpacity>
             
-            <View style={styles.statCard}>
+            <TouchableOpacity 
+              style={styles.statCard}
+              onPress={() => router.push('/(tabs)/history')}
+              activeOpacity={0.7}
+            >
               <View style={styles.statHeader}>
                 <Ionicons name="checkmark-circle" size={24} color={COLORS.success} />
                 <Text style={styles.statNumber}>{stats.adherence_rate}%</Text>
               </View>
               <Text style={styles.statLabel}>Adesão</Text>
-            </View>
+            </TouchableOpacity>
           </View>
         )}
 
