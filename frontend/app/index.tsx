@@ -68,12 +68,10 @@ export default function Index() {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Image 
-          source={require('../assets/images/pillguard-logo-color.png')} 
+          source={require('../assets/images/pillguard-logo-full-color.png')} 
           style={styles.logo}
           resizeMode="contain"
         />
-        <Text style={styles.title}>PillGuard</Text>
-        <Text style={styles.subtitle}>Selecione um perfil para começar</Text>
       </View>
 
       <ScrollView style={styles.profileList} contentContainerStyle={styles.profileListContent}>
