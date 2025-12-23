@@ -8,6 +8,7 @@ interface AppContextType {
   setCurrentProfile: (profile: Profile | null) => void;
   profiles: Profile[];
   refreshProfiles: () => Promise<void>;
+  deleteProfile: (profileId: string) => Promise<void>;
   medications: Medication[];
   refreshMedications: () => Promise<void>;
   alarms: Alarm[];
