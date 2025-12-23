@@ -1,7 +1,9 @@
 import Constants from 'expo-constants';
 
-const BACKEND_URL = Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL || process.env.EXPO_PUBLIC_BACKEND_URL || '';
+const BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL || '';
 const API_URL = `${BACKEND_URL}/api`;
+
+console.log('API_URL configured:', API_URL);
 
 export const api = {
   // Profiles
