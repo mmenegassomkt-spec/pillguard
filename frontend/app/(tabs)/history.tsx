@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useApp } from '../context/AppContext';
+import { ProfileHeader } from '../components/ProfileHeader';
 import { api } from '../utils/api';
 import { AlarmLog } from '../types';
 import { COLORS } from '../utils/constants';
@@ -70,6 +71,7 @@ export default function HistoryScreen() {
 
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
+      <ProfileHeader />
       {logs.length > 0 ? (
         <ScrollView 
           style={styles.scrollView}

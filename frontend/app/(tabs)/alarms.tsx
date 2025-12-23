@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useApp } from '../context/AppContext';
 import { AlarmCard } from '../components/AlarmCard';
+import { ProfileHeader } from '../components/ProfileHeader';
 import { COLORS } from '../utils/constants';
 
 export default function AlarmsScreen() {
@@ -26,6 +27,7 @@ export default function AlarmsScreen() {
 
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
+      <ProfileHeader />
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.addButton}

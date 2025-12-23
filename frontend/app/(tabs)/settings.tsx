@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useApp } from '../context/AppContext';
+import { ProfileHeader } from '../components/ProfileHeader';
 import { COLORS } from '../utils/constants';
 import { api } from '../utils/api';
 import { format } from 'date-fns';
@@ -50,6 +51,7 @@ export default function SettingsScreen() {
 
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
+      <ProfileHeader />
       <ScrollView style={styles.scrollView}>
         {/* Perfil Atual */}
         <View style={styles.section}>
@@ -125,7 +127,7 @@ export default function SettingsScreen() {
           )}
         </View>
 
-        {/* Opções */}
+        {/* Sobre */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Sobre</Text>
           <View style={styles.optionCard}>
