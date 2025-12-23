@@ -20,36 +20,31 @@ export const MedicationCard: React.FC<MedicationCardProps> = ({ medication, onPr
       activeOpacity={0.7}
     >
       <View style={styles.header}>
-        <View style={styles.titleContainer}>
-          <Ionicons name="medical" size={24} color={priorityColor} />
-          <View style={styles.textContainer}>
+        <Ionicons name="medical" size={20} color={priorityColor} />
+        <View style={styles.contentContainer}>
+          <View style={styles.titleRow}>
             <Text style={styles.name}>{medication.name}</Text>
-            <Text style={styles.dosage}>{medication.dosage}</Text>
+            {medication.priority !== 'normal' && (
+              <View style={[styles.badge, { backgroundColor: priorityColor }]}>
+                <Text style={styles.badgeText}>{medication.priority}</Text>
+              </View>
+            )}
+          </View>
+          <Text style={styles.dosage}>{medication.dosage}</Text>
+          <View style={styles.stockContainer}>
+            <Ionicons 
+              name={isLowStock ? "warning" : "cube"} 
+              size={14} 
+              color={isLowStock ? COLORS.warning : COLORS.textLight} 
+            />
+            <Text style={[styles.stockText, isLowStock && styles.lowStockText]}>
+              Estoque: {medication.stock_quantity} un.
+            </Text>
+            {isLowStock && (
+              <Text style={styles.alertText}> • Baixo estoque!</Text>
+            )}
           </View>
         </View>
-        
-        {medication.priority !== 'normal' && (
-          <View style={[styles.badge, { backgroundColor: priorityColor }]}>
-            <Text style={styles.badgeText}>{medication.priority}</Text>
-          </View>
-        )}
-      </View>
-
-      <View style={styles.footer}>
-        <View style={styles.stockContainer}>
-          <Ionicons 
-            name={isLowStock ? "warning" : "cube"} 
-            size={18} 
-            color={isLowStock ? COLORS.warning : COLORS.textLight} 
-          />
-          <Text style={[styles.stockText, isLowStock && styles.lowStockText]}>
-            Estoque: {medication.stock_quantity} un.
-          </Text>
-        </View>
-        
-        {isLowStock && (
-          <Text style={styles.alertText}>Baixo estoque!</Text>
-        )}
       </View>
     </TouchableOpacity>
   );
@@ -59,8 +54,8 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: COLORS.white,
     borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
+    padding: 12,
+    marginBottom: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -69,52 +64,48 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginBottom: 12,
   },
-  titleContainer: {
+  contentContainer: {
+    marginLeft: 10,
+    flex: 1,
+  },
+  titleRow: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    flex: 1,
-  },
-  textContainer: {
-    marginLeft: 12,
-    flex: 1,
+    marginBottom: 2,
   },
   name: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '600',
     color: COLORS.text,
-    marginBottom: 4,
+    flex: 1,
   },
   dosage: {
-    fontSize: 14,
+    fontSize: 13,
     color: COLORS.textLight,
+    marginBottom: 6,
   },
   badge: {
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 12,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 10,
+    marginLeft: 8,
   },
   badgeText: {
     color: COLORS.white,
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: '600',
     textTransform: 'uppercase',
-  },
-  footer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
   },
   stockContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   stockText: {
-    marginLeft: 6,
-    fontSize: 14,
+    marginLeft: 4,
+    fontSize: 13,
     color: COLORS.textLight,
   },
   lowStockText: {
