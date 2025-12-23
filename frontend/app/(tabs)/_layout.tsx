@@ -87,15 +87,11 @@ export default function TabLayout() {
 const styles = StyleSheet.create({
   logoContainer: {
     marginRight: 16,
-    backgroundColor: 'rgba(255, 255, 255, 0.15)',
-    borderRadius: 8,
-    paddingHorizontal: 10,
-    paddingVertical: 4,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  logoText: {
-    fontSize: 18,
-    fontWeight: '800',
-    color: COLORS.white,
-    letterSpacing: 1,
+  logoImage: {
+    width: 40,
+    height: 32,
   },
 });
