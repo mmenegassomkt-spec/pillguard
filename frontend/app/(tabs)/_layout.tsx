@@ -2,9 +2,14 @@ import React from 'react';
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '../utils/constants';
-
-import { Platform } from 'react-native';
+import { Platform, View, Text, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+const LogoHeader = () => (
+  <View style={styles.logoContainer}>
+    <Text style={styles.logoText}>PG</Text>
+  </View>
+);
 
 export default function TabLayout() {
   const insets = useSafeAreaInsets();
@@ -33,6 +38,7 @@ export default function TabLayout() {
         headerTitleStyle: {
           fontWeight: '700',
         },
+        headerRight: () => <LogoHeader />,
       }}
     >
         <Tabs.Screen
@@ -73,3 +79,19 @@ export default function TabLayout() {
       </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  logoContainer: {
+    marginRight: 16,
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+  },
+  logoText: {
+    fontSize: 18,
+    fontWeight: '800',
+    color: COLORS.white,
+    letterSpacing: 1,
+  },
+});
