@@ -40,6 +40,21 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
+  const deleteProfile = useCallback(async (profileId: string) => {
+    try {
+      await api.deleteProfile(profileId);
+      // Se o perfil deletado é o atual, limpa o perfil atual
+      if (currentProfile?.id === profileId) {
+        await AsyncStorage.removeItem('currentProfileId');
+        setCurrentProfileState(null);
+      }
+      await refreshProfiles();
+    } catch (error) {
+      console.error('Error deleting profile:', error);
+      throw error;
+    }
+  }, [currentProfile, refreshProfiles]);
+
   const refreshMedications = useCallback(async () => {
     if (!currentProfile) return;
     try {
