@@ -125,8 +125,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   logo: {
-    width: 200,
-    height: 180,
+    width: 280,
+    height: 80,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: COLORS.textLight,
+    marginTop: 12,
+    textAlign: 'center',
   },
   profileList: {
     flex: 1,
