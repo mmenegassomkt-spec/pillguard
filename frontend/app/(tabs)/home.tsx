@@ -39,19 +39,11 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
+      <ProfileHeader />
       <ScrollView 
         style={styles.scrollView}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       >
-        {/* Header com perfil */}
-        <View style={styles.header}>
-          <View style={styles.profileInfo}>
-            <View style={[styles.avatar, { backgroundColor: currentProfile.color }]}>
-              <Ionicons name={currentProfile.avatar as any || 'person'} size={32} color={COLORS.white} />
-            </View>
-            <Text style={styles.greeting}>Olá, {currentProfile.name}</Text>
-          </View>
-        </View>
 
         {/* Stats */}
         {stats && (
