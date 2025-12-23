@@ -46,6 +46,18 @@ export default function RootLayout() {
             headerShown: false,
           }} 
         />
+        <Stack.Screen 
+          name="medication/[id]" 
+          options={{ 
+            headerShown: false,
+          }} 
+        />
+        <Stack.Screen 
+          name="alarm/[id]" 
+          options={{ 
+            headerShown: false,
+          }} 
+        />
       </Stack>
     </AppProvider>
   );
