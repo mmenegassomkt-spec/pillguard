@@ -3,6 +3,8 @@ import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '../utils/constants';
 
+import { Platform } from 'react-native';
+
 export default function TabLayout() {
   return (
     <Tabs
@@ -13,8 +15,8 @@ export default function TabLayout() {
           backgroundColor: COLORS.white,
           borderTopWidth: 1,
           borderTopColor: COLORS.border,
-          height: 60,
-          paddingBottom: 8,
+          height: Platform.OS === 'android' ? 70 : 60,
+          paddingBottom: Platform.OS === 'android' ? 12 : 8,
           paddingTop: 8,
         },
         tabBarLabelStyle: {
