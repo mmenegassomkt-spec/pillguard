@@ -6,7 +6,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useApp } from '../context/AppContext';
 import { COLORS } from '../utils/constants';
 import { format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
 
 export default function HomeScreen() {
   const { currentProfile, alarms, medications, stats, refreshAlarms, refreshMedications, refreshStats } = useApp();
