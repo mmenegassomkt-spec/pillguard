@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Profile, Medication, Alarm, PremiumTrial, Stats } from '../types';
 import { api } from '../utils/api';
@@ -30,6 +30,55 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [stats, setStats] = useState<Stats | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const refreshProfiles = useCallback(async () => {
+    try {
+      const data = await api.getProfiles();
+      setProfiles(data);
+    } catch (error) {
+      console.error('Error fetching profiles:', error);
+    }
+  }, []);
+
+  const refreshMedications = useCallback(async () => {
+    if (!currentProfile) return;
+    try {
+      const data = await api.getMedications(currentProfile.id);
+      setMedications(data);
+    } catch (error) {
+      console.error('Error fetching medications:', error);
+    }
+  }, [currentProfile]);
+
+  const refreshAlarms = useCallback(async () => {
+    if (!currentProfile) return;
+    try {
+      const data = await api.getAlarms(currentProfile.id);
+      setAlarms(data);
+    } catch (error) {
+      console.error('Error fetching alarms:', error);
+    }
+  }, [currentProfile]);
+
+  const refreshPremiumTrial = useCallback(async () => {
+    if (!currentProfile) return;
+    try {
+      const data = await api.getPremiumTrial(currentProfile.id);
+      setPremiumTrial(data);
+    } catch (error) {
+      console.error('Error fetching premium trial:', error);
+    }
+  }, [currentProfile]);
+
+  const refreshStats = useCallback(async () => {
+    if (!currentProfile) return;
+    try {
+      const data = await api.getStats(currentProfile.id);
+      setStats(data);
+    } catch (error) {
+      console.error('Error fetching stats:', error);
+    }
+  }, [currentProfile]);
+
   // Load current profile from AsyncStorage
   useEffect(() => {
     loadCurrentProfile();
@@ -43,7 +92,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       refreshPremiumTrial();
       refreshStats();
     }
-  }, [currentProfile]);
+  }, [currentProfile, refreshMedications, refreshAlarms, refreshPremiumTrial, refreshStats]);
 
   const loadCurrentProfile = async () => {
     try {
