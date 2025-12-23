@@ -125,11 +125,15 @@ const styles = StyleSheet.create({
     paddingVertical: 40,
     paddingHorizontal: 20,
   },
+  logo: {
+    width: 120,
+    height: 80,
+  },
   title: {
     fontSize: 28,
     fontWeight: '700',
     color: COLORS.text,
-    marginTop: 16,
+    marginTop: 12,
     textAlign: 'center',
   },
   subtitle: {
@@ -149,13 +153,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: COLORS.white,
     borderRadius: 12,
-    padding: 16,
     marginBottom: 12,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
+  },
+  profileContent: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
   },
   avatar: {
     width: 56,
@@ -170,6 +179,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '600',
     color: COLORS.text,
+  },
+  deleteButton: {
+    padding: 16,
+    borderLeftWidth: 1,
+    borderLeftColor: COLORS.border,
   },
   addProfileCard: {
     alignItems: 'center',
