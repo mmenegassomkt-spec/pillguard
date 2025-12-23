@@ -7,6 +7,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { COLORS, PRIORITY_COLORS } from './utils/constants';
 import { api } from './utils/api';
 import { Button } from './components/Button';
+import { ProfileHeader } from './components/ProfileHeader';
 import { useApp } from './context/AppContext';
 
 export default function AddMedicationScreen() {
