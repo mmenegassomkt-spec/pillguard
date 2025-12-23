@@ -274,13 +274,29 @@ export default function AddAlarmScreen() {
               </TouchableOpacity>
             </View>
 
-            <Button
-              title="Criar Alarme"
-              onPress={handleCreate}
-              loading={loading}
-              disabled={medications.length === 0}
-              style={styles.createButton}
-            />
+            {medications.length === 0 ? (
+              <View style={styles.noMedicationsWarning}>
+                <Ionicons name="alert-circle" size={48} color={COLORS.warning} />
+                <Text style={styles.noMedicationsText}>
+                  Você precisa cadastrar pelo menos um medicamento antes de criar um alarme.
+                </Text>
+                <TouchableOpacity
+                  style={styles.goToMedicationsButton}
+                  onPress={() => router.push('/add-medication')}
+                >
+                  <Text style={styles.goToMedicationsButtonText}>
+                    Cadastrar Medicamento
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <Button
+                title="Criar Alarme"
+                onPress={handleCreate}
+                loading={loading}
+                style={styles.createButton}
+              />
+            )}
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
