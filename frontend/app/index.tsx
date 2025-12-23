@@ -120,25 +120,12 @@ const styles = StyleSheet.create({
   },
   header: {
     alignItems: 'center',
-    paddingVertical: 40,
+    paddingVertical: 30,
     paddingHorizontal: 20,
   },
   logo: {
-    width: 120,
-    height: 80,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: '700',
-    color: COLORS.text,
-    marginTop: 12,
-    textAlign: 'center',
-  },
-  subtitle: {
-    fontSize: 16,
-    color: COLORS.textLight,
-    marginTop: 8,
-    textAlign: 'center',
+    width: 200,
+    height: 180,
   },
   profileList: {
     flex: 1,
