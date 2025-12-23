@@ -313,6 +313,7 @@ export default function MedicationDetailScreen() {
           />
         </View>
       </ScrollView>
+    </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
