@@ -508,6 +508,33 @@ const styles = StyleSheet.create({
     color: COLORS.textLight,
     textAlign: 'center',
   },
+  noMedicationsWarning: {
+    alignItems: 'center',
+    padding: 32,
+    backgroundColor: COLORS.warning + '20',
+    borderRadius: 12,
+    marginTop: 16,
+    marginBottom: 40,
+  },
+  noMedicationsText: {
+    fontSize: 16,
+    color: COLORS.text,
+    textAlign: 'center',
+    marginTop: 16,
+    marginBottom: 20,
+  },
+  goToMedicationsButton: {
+    backgroundColor: COLORS.primary,
+    borderRadius: 12,
+    padding: 16,
+    width: '100%',
+  },
+  goToMedicationsButtonText: {
+    color: COLORS.white,
+    fontSize: 16,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
   createButton: {
     marginTop: 8,
     marginBottom: 40,
