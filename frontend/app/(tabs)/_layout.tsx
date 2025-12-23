@@ -46,7 +46,7 @@ export default function TabLayout() {
           name="medications"
           options={{
             title: 'Medicamentos',
-            tabBarIcon: ({ color, size }) => <Ionicons name="medical" size={size} color={color} />,
+            tabBarIcon: ({ color, size }) => <Ionicons name="medkit" size={size} color={color} />,
           }}
         />
         <Tabs.Screen
