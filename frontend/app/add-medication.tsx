@@ -131,6 +131,7 @@ export default function AddMedicationScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <ProfileHeader />
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color={COLORS.text} />
