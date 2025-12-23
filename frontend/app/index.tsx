@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -18,6 +18,11 @@ function ProfileSelectorContent() {
       router.replace('/(tabs)/home');
     }
   }, [currentProfile]);
+
+  useEffect(() => {
+    // Refresh profiles on mount
+    refreshProfiles();
+  }, []);
 
   const handleSelectProfile = async (profileId: string) => {
     const profile = profiles.find(p => p.id === profileId);
