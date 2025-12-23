@@ -83,9 +83,20 @@ export default function AddAlarmScreen() {
       return;
     }
 
+    // Solicitar permissões de notificação
+    const hasPermission = await NotificationService.requestPermissions();
+    if (!hasPermission) {
+      Alert.alert(
+        'Permissão negada',
+        'É necessário permitir notificações para que os alarmes funcionem. Por favor, habilite nas configurações do dispositivo.',
+        [{ text: 'OK' }]
+      );
+      return;
+    }
+
     setLoading(true);
     try {
-      await api.createAlarm({
+      const alarmData = await api.createAlarm({
         profile_id: currentProfile.id,
         time: formatTime(time),
         frequency,
@@ -96,9 +107,21 @@ export default function AddAlarmScreen() {
         is_active: true,
       });
       
+      // Agendar notificações
+      const alarmMeds = medications.filter(med => selectedMedications.includes(med.id));
+      await NotificationService.scheduleAlarmNotification(alarmData, alarmMeds);
+      
       await refreshAlarms();
-      Alert.alert('Sucesso!', 'Alarme criado com sucesso');
-      router.back();
+      Alert.alert(
+        'Sucesso!', 
+        'Alarme criado e notificações agendadas!',
+        [
+          {
+            text: 'OK',
+            onPress: () => router.back(),
+          },
+        ]
+      );
     } catch (error) {
       console.error('Error creating alarm:', error);
       Alert.alert('Erro', 'Não foi possível criar o alarme');
