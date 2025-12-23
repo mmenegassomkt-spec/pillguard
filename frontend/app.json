@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "MedControl",
-    "slug": "medcontrol",
+    "name": "PillGuard",
+    "slug": "pillguard",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "medcontrol",
+    "scheme": "pillguard",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "description": "App inteligente de controle de medicamentos com alarmes e gestão de estoque",
