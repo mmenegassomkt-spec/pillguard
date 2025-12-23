@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logoImage: {
-    width: 40,
-    height: 32,
+    width: 60,
+    height: 44,
   },
 });
