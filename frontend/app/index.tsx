@@ -20,9 +20,9 @@ export default function Index() {
   }, [currentProfile]);
 
   useEffect(() => {
-    // Refresh profiles on mount
+    // Refresh profiles only once on mount
     refreshProfiles();
-  }, []);
+  }, [refreshProfiles]);
 
   const handleSelectProfile = async (profileId: string) => {
     const profile = profiles.find(p => p.id === profileId);
