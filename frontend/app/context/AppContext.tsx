@@ -111,11 +111,14 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   }, [currentProfile, refreshMedications, refreshAlarms, refreshPremiumTrial, refreshStats]);
 
   const loadCurrentProfile = async () => {
+    console.log('loadCurrentProfile: starting...');
     try {
       const profileId = await AsyncStorage.getItem('currentProfileId');
+      console.log('loadCurrentProfile: profileId =', profileId);
       if (profileId) {
         try {
           const profile = await api.getProfile(profileId);
+          console.log('loadCurrentProfile: profile loaded =', profile?.name);
           setCurrentProfileState(profile);
         } catch (error) {
           // Profile doesn't exist anymore, clear it
@@ -124,7 +127,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
           setCurrentProfileState(null);
         }
       }
+      console.log('loadCurrentProfile: refreshing profiles...');
       await refreshProfiles();
+      console.log('loadCurrentProfile: done');
     } catch (error) {
       console.error('Error loading current profile:', error);
     } finally {
