@@ -131,7 +131,7 @@ export default function MedicationDetailScreen() {
         <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color={COLORS.white} />
         </TouchableOpacity>
-        <View style={{ flex: 1 }} />
+        <Text style={styles.headerTitle}>Detalhes do Medicamento</Text>
         <TouchableOpacity onPress={handleDelete} style={styles.deleteButton}>
           <Ionicons name="trash" size={24} color={COLORS.white} />
         </TouchableOpacity>
@@ -144,10 +144,10 @@ export default function MedicationDetailScreen() {
         <ScrollView style={styles.scrollView}>
           <View style={styles.content}>
             {/* Nome e Prioridade */}
-            <View style={[styles.mainCard, { borderLeftColor: priorityColor, borderLeftWidth: 6 }]}>
-              <View style={styles.titleRow}>
-                <Ionicons name="medical" size={32} color={priorityColor} />
-                <View style={styles.titleInfo}>
+            <View style={[styles.mainCard, { borderLeftColor: priorityColor, borderLeftWidth: 4 }]}>
+              <View style={styles.cardHeader}>
+                <Ionicons name="medical" size={20} color={priorityColor} />
+                <View style={styles.cardContent}>
                   {editingName ? (
                     <View style={styles.editContainer}>
                       <TextInput
@@ -168,39 +168,43 @@ export default function MedicationDetailScreen() {
                   ) : (
                     <TouchableOpacity onPress={() => setEditingName(true)} style={styles.nameContainer}>
                       <Text style={styles.medName}>{medication.name}</Text>
-                      <Ionicons name="pencil" size={18} color={COLORS.primary} />
+                      <Ionicons name="pencil" size={16} color={COLORS.primary} />
                     </TouchableOpacity>
                   )}
                   
-                  {editingDosage ? (
-                    <View style={styles.editContainer}>
-                      <TextInput
-                        style={styles.editInput}
-                        value={editedDosage}
-                        onChangeText={setEditedDosage}
-                        autoFocus
-                      />
-                      <View style={styles.editActions}>
-                        <TouchableOpacity onPress={handleSaveDosage} style={styles.saveButton}>
-                          <Ionicons name="checkmark" size={20} color={COLORS.white} />
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => { setEditedDosage(medication!.dosage); setEditingDosage(false); }} style={styles.cancelButton}>
-                          <Ionicons name="close" size={20} color={COLORS.white} />
-                        </TouchableOpacity>
+                  <View style={styles.dosageRow}>
+                    {editingDosage ? (
+                      <View style={[styles.editContainer, { flex: 1 }]}>
+                        <TextInput
+                          style={styles.editInput}
+                          value={editedDosage}
+                          onChangeText={setEditedDosage}
+                          autoFocus
+                        />
+                        <View style={styles.editActions}>
+                          <TouchableOpacity onPress={handleSaveDosage} style={styles.saveButton}>
+                            <Ionicons name="checkmark" size={20} color={COLORS.white} />
+                          </TouchableOpacity>
+                          <TouchableOpacity onPress={() => { setEditedDosage(medication!.dosage); setEditingDosage(false); }} style={styles.cancelButton}>
+                            <Ionicons name="close" size={20} color={COLORS.white} />
+                          </TouchableOpacity>
+                        </View>
                       </View>
-                    </View>
-                  ) : (
-                    <TouchableOpacity onPress={() => setEditingDosage(true)} style={styles.dosageContainer}>
-                      <Text style={styles.dosage}>{medication.dosage}</Text>
-                      <Ionicons name="pencil" size={16} color={COLORS.textLight} />
-                    </TouchableOpacity>
-                  )}
-                </View>
-                {medication.priority !== 'normal' && (
-                  <View style={[styles.priorityBadge, { backgroundColor: priorityColor }]}>
-                    <Text style={styles.badgeText}>{medication.priority.toUpperCase()}</Text>
+                    ) : (
+                      <>
+                        <TouchableOpacity onPress={() => setEditingDosage(true)} style={styles.dosageContainer}>
+                          <Text style={styles.dosage}>{medication.dosage}</Text>
+                          <Ionicons name="pencil" size={14} color={COLORS.textLight} />
+                        </TouchableOpacity>
+                        {medication.priority !== 'normal' && (
+                          <View style={[styles.priorityBadge, { backgroundColor: priorityColor }]}>
+                            <Text style={styles.badgeText}>{medication.priority.toUpperCase()}</Text>
+                          </View>
+                        )}
+                      </>
+                    )}
                   </View>
-                )}
+                </View>
               </View>
             </View>
 
