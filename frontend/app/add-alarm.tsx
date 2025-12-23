@@ -7,6 +7,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { COLORS, FREQUENCIES, WEEKDAYS } from './utils/constants';
 import { api } from './utils/api';
 import { Button } from './components/Button';
+import { ProfileHeader } from './components/ProfileHeader';
 import { useApp } from './context/AppContext';
 import { Medication } from './types';
 
