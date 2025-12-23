@@ -48,10 +48,7 @@ export default function HomeScreen() {
             <View style={[styles.avatar, { backgroundColor: currentProfile.color }]}>
               <Ionicons name={currentProfile.avatar as any || 'person'} size={32} color={COLORS.white} />
             </View>
-            <View>
-              <Text style={styles.greeting}>Olá,</Text>
-              <Text style={styles.profileName}>{currentProfile.name}</Text>
-            </View>
+            <Text style={styles.greeting}>Olá, {currentProfile.name}</Text>
           </View>
         </View>
 
@@ -59,20 +56,26 @@ export default function HomeScreen() {
         {stats && (
           <View style={styles.statsContainer}>
             <View style={styles.statCard}>
-              <Ionicons name="medical" size={32} color={COLORS.primary} />
-              <Text style={styles.statNumber}>{stats.medications_count}</Text>
+              <View style={styles.statHeader}>
+                <Ionicons name="medkit" size={24} color={COLORS.primary} />
+                <Text style={styles.statNumber}>{stats.medications_count}</Text>
+              </View>
               <Text style={styles.statLabel}>Medicamentos</Text>
             </View>
             
             <View style={styles.statCard}>
-              <Ionicons name="alarm" size={32} color={COLORS.primary} />
-              <Text style={styles.statNumber}>{stats.alarms_count}</Text>
+              <View style={styles.statHeader}>
+                <Ionicons name="alarm" size={24} color={COLORS.primary} />
+                <Text style={styles.statNumber}>{stats.alarms_count}</Text>
+              </View>
               <Text style={styles.statLabel}>Alarmes Ativos</Text>
             </View>
             
             <View style={styles.statCard}>
-              <Ionicons name="checkmark-circle" size={32} color={COLORS.success} />
-              <Text style={styles.statNumber}>{stats.adherence_rate}%</Text>
+              <View style={styles.statHeader}>
+                <Ionicons name="checkmark-circle" size={24} color={COLORS.success} />
+                <Text style={styles.statNumber}>{stats.adherence_rate}%</Text>
+              </View>
               <Text style={styles.statLabel}>Adesão</Text>
             </View>
           </View>
