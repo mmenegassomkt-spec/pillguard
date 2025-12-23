@@ -98,8 +98,15 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     try {
       const profileId = await AsyncStorage.getItem('currentProfileId');
       if (profileId) {
-        const profile = await api.getProfile(profileId);
-        setCurrentProfileState(profile);
+        try {
+          const profile = await api.getProfile(profileId);
+          setCurrentProfileState(profile);
+        } catch (error) {
+          // Profile doesn't exist anymore, clear it
+          console.log('Profile not found, clearing from storage');
+          await AsyncStorage.removeItem('currentProfileId');
+          setCurrentProfileState(null);
+        }
       }
       await refreshProfiles();
     } catch (error) {
