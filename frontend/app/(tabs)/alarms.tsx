@@ -3,10 +3,10 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, RefreshControl, Ani
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useApp } from '../context/AppContext';
-import { AlarmCard } from '../components/AlarmCard';
-import { ProfileHeader } from '../components/ProfileHeader';
-import { COLORS } from '../utils/constants';
+import { useApp } from '../_context/AppContext';
+import { AlarmCard } from '../_components/AlarmCard';
+import { ProfileHeader } from '../_components/ProfileHeader';
+import { COLORS } from '../_utils/constants';
 
 export default function AlarmsScreen() {
   const { alarms, medications, refreshAlarms, currentProfile } = useApp();

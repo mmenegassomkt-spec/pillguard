@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Alarm, Medication } from '../types';
-import { COLORS } from '../utils/constants';
+import { Alarm, Medication } from '../_types';
+import { COLORS } from '../_utils/constants';
 
 interface AlarmCardProps {
   alarm: Alarm;

@@ -1,10 +1,10 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS } from '../utils/constants';
+import { COLORS } from '../_utils/constants';
 import { Platform, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { triggerReviewPrompt } from '../hooks/useReviewPrompt';
+import { triggerReviewPrompt } from '../_hooks/useReviewPrompt';
 
 const LogoHeader = () => (
   <TouchableOpacity 

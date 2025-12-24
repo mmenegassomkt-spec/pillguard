@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS } from '../utils/constants';
-import { useApp } from '../context/AppContext';
+import { COLORS } from '../_utils/constants';
+import { useApp } from '../_context/AppContext';
 
 export const ProfileHeader: React.FC = () => {
   const { currentProfile } = useApp();

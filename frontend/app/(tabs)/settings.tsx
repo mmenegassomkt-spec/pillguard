@@ -3,10 +3,10 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'rea
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useApp } from '../context/AppContext';
-import { ProfileHeader } from '../components/ProfileHeader';
-import { COLORS } from '../utils/constants';
-import { api } from '../utils/api';
+import { useApp } from '../_context/AppContext';
+import { ProfileHeader } from '../_components/ProfileHeader';
+import { COLORS } from '../_utils/constants';
+import { api } from '../_utils/api';
 import { format } from 'date-fns';
 
 export default function SettingsScreen() {

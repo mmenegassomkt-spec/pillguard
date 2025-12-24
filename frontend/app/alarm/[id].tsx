@@ -3,12 +3,12 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Platform } from '
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useApp } from '../context/AppContext';
-import { Alarm } from '../types';
-import { COLORS } from '../utils/constants';
-import { api } from '../utils/api';
-import { Button } from '../components/Button';
-import { useCustomAlert } from '../components/CustomAlert';
+import { useApp } from '../_context/AppContext';
+import { Alarm } from '../_types';
+import { COLORS } from '../_utils/constants';
+import { api } from '../_utils/api';
+import { Button } from '../_components/Button';
+import { useCustomAlert } from '../_components/CustomAlert';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 

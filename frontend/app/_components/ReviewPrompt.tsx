@@ -9,7 +9,7 @@ import {
   Dimensions 
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS } from '../utils/constants';
+import { COLORS } from '../_utils/constants';
 
 interface ReviewPromptProps {
   visible: boolean;
