@@ -115,6 +115,7 @@ export default function MedicationDetailScreen() {
   if (!medication) {
     return (
       <SafeAreaView style={styles.container}>
+        <AlertComponent />
         <View style={styles.errorContainer}>
           <Ionicons name="alert-circle" size={64} color={COLORS.critical} />
           <Text style={styles.errorText}>Medicamento não encontrado</Text>
@@ -129,6 +130,7 @@ export default function MedicationDetailScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <AlertComponent />
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color={COLORS.white} />
