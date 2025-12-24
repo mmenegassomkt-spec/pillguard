@@ -472,6 +472,19 @@ const styles = StyleSheet.create({
     color: COLORS.primary,
     fontWeight: '600',
   },
+  calendarContainer: {
+    marginTop: 16,
+  },
+  calendarHint: {
+    fontSize: 12,
+    color: COLORS.textLight,
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+  calendar: {
+    borderRadius: 12,
+    overflow: 'hidden',
+  },
   infoCard: {
     flexDirection: 'row',
     alignItems: 'center',
