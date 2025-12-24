@@ -98,16 +98,42 @@ export default function AlarmDetailScreen() {
   const handleFrequencyChange = (frequency: string) => {
     setEditedFrequency(frequency);
     setHasChanges(true);
+    if (frequency === 'specific') {
+      setShowCalendar(true);
+    }
+  };
+
+  const handleDayPress = (day: any) => {
+    const dateStr = day.dateString;
+    setSelectedDates(prev => {
+      const newDates = { ...prev };
+      if (newDates[dateStr]) {
+        delete newDates[dateStr];
+      } else {
+        newDates[dateStr] = { selected: true, selectedColor: COLORS.primary };
+      }
+      return newDates;
+    });
+    setHasChanges(true);
   };
 
   const handleSaveChanges = async () => {
     if (!alarm) return;
+    
+    // Validar se tem datas selecionadas quando for "Selecionar"
+    if (editedFrequency === 'specific' && Object.keys(selectedDates).length === 0) {
+      Alert.alert('Atenção', 'Selecione pelo menos uma data para o alarme.');
+      return;
+    }
+    
     setSaving(true);
     try {
       const timeString = `${editedTime.getHours().toString().padStart(2, '0')}:${editedTime.getMinutes().toString().padStart(2, '0')}`;
+      const specificDates = Object.keys(selectedDates);
       await api.updateAlarm(alarm.id, { 
         time: timeString,
-        frequency: editedFrequency 
+        frequency: editedFrequency,
+        specific_dates: editedFrequency === 'specific' ? specificDates : []
       });
       await refreshAlarms();
       Alert.alert('Sucesso', 'Alarme atualizado com sucesso!');
