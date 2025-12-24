@@ -214,11 +214,11 @@ export default function AlarmDetailScreen() {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={24} color={COLORS.text} />
+          <Ionicons name="arrow-back" size={24} color={COLORS.white} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Detalhes do Alarme</Text>
         <TouchableOpacity onPress={handleDelete} style={styles.deleteButton}>
-          <Ionicons name="trash" size={24} color={COLORS.critical} />
+          <Ionicons name="trash" size={24} color={COLORS.white} />
         </TouchableOpacity>
       </View>
 
