@@ -1,6 +1,6 @@
 import { Stack, router } from 'expo-router';
-import { COLORS } from './_utils/constants';
-import { AppProvider } from './_context/AppContext';
+import { COLORS } from '../../src/utils/constants';
+import { AppProvider } from '../../src/context/AppContext';
 import { useEffect } from 'react';
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
