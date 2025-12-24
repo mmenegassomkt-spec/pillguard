@@ -125,6 +125,14 @@ export const api = {
     return response.json();
   },
 
+  // Alarm Logs
+  clearAlarmLogs: async (profileId: string) => {
+    const response = await fetch(`${API_URL}/alarm-logs/${profileId}`, {
+      method: 'DELETE',
+    });
+    return response.json();
+  },
+
   // Premium Trial
   createPremiumTrial: async (data: any) => {
     const response = await fetch(`${API_URL}/premium-trial`, {
