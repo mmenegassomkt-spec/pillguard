@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, Platform } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, Platform, Modal } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -9,6 +9,17 @@ import { COLORS } from '../utils/constants';
 import { api } from '../utils/api';
 import { Button } from '../components/Button';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { Calendar, LocaleConfig } from 'react-native-calendars';
+
+// Configurar calendário em português
+LocaleConfig.locales['pt-br'] = {
+  monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+  monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+  dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+  dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+  today: 'Hoje'
+};
+LocaleConfig.defaultLocale = 'pt-br';
 
 const FREQUENCIES = [
   { value: 'daily', label: 'Todo dia' },
@@ -24,8 +35,10 @@ export default function AlarmDetailScreen() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [showTimePicker, setShowTimePicker] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(false);
   const [editedTime, setEditedTime] = useState<Date>(new Date());
   const [editedFrequency, setEditedFrequency] = useState('daily');
+  const [selectedDates, setSelectedDates] = useState<{[key: string]: {selected: boolean, selectedColor: string}}>({});
   const [hasChanges, setHasChanges] = useState(false);
 
   useEffect(() => {
@@ -42,6 +55,14 @@ export default function AlarmDetailScreen() {
       date.setHours(parseInt(hours), parseInt(minutes));
       setEditedTime(date);
       setEditedFrequency(data.frequency);
+      // Carregar datas específicas se houver
+      if (data.specific_dates && data.specific_dates.length > 0) {
+        const dates: {[key: string]: {selected: boolean, selectedColor: string}} = {};
+        data.specific_dates.forEach((d: string) => {
+          dates[d] = { selected: true, selectedColor: COLORS.primary };
+        });
+        setSelectedDates(dates);
+      }
       setHasChanges(false);
     } catch (error) {
       console.error('Error loading alarm:', error);
