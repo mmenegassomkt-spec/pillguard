@@ -250,6 +250,26 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
   },
+  lowStockItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: COLORS.white,
+    borderRadius: 8,
+    padding: 12,
+    marginTop: 8,
+    gap: 8,
+  },
+  lowStockName: {
+    flex: 1,
+    fontSize: 14,
+    fontWeight: '600',
+    color: COLORS.text,
+  },
+  lowStockQty: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: COLORS.warning,
+  },
   section: {
     padding: 16,
   },
