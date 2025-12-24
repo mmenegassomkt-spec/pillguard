@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, Platform } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -8,6 +8,13 @@ import { Alarm } from '../types';
 import { COLORS } from '../utils/constants';
 import { api } from '../utils/api';
 import { Button } from '../components/Button';
+import DateTimePicker from '@react-native-community/datetimepicker';
+
+const FREQUENCIES = [
+  { value: 'daily', label: 'Todos os dias' },
+  { value: 'alternate', label: 'Dias alternados' },
+  { value: 'specific', label: 'Dias específicos' },
+];
 
 export default function AlarmDetailScreen() {
   const { id } = useLocalSearchParams();
@@ -15,6 +22,11 @@ export default function AlarmDetailScreen() {
   const { medications, refreshAlarms } = useApp();
   const [alarm, setAlarm] = useState<Alarm | null>(null);
   const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [showTimePicker, setShowTimePicker] = useState(false);
+  const [editedTime, setEditedTime] = useState<Date>(new Date());
+  const [editedFrequency, setEditedFrequency] = useState('daily');
+  const [hasChanges, setHasChanges] = useState(false);
 
   useEffect(() => {
     loadAlarm();
@@ -24,6 +36,13 @@ export default function AlarmDetailScreen() {
     try {
       const data = await api.getAlarm(id as string);
       setAlarm(data);
+      // Parse time string to Date
+      const [hours, minutes] = data.time.split(':');
+      const date = new Date();
+      date.setHours(parseInt(hours), parseInt(minutes));
+      setEditedTime(date);
+      setEditedFrequency(data.frequency);
+      setHasChanges(false);
     } catch (error) {
       console.error('Error loading alarm:', error);
       Alert.alert('Erro', 'Não foi possível carregar o alarme');
@@ -47,9 +66,36 @@ export default function AlarmDetailScreen() {
     }
   };
 
-  const handleTestAlarm = () => {
-    // Simular alarme tocando - navegar para tela de confirmação
-    router.push(`/alarm-confirm?alarmId=${alarm?.id}`);
+  const handleTimeChange = (event: any, selectedDate?: Date) => {
+    setShowTimePicker(Platform.OS === 'ios');
+    if (selectedDate) {
+      setEditedTime(selectedDate);
+      setHasChanges(true);
+    }
+  };
+
+  const handleFrequencyChange = (frequency: string) => {
+    setEditedFrequency(frequency);
+    setHasChanges(true);
+  };
+
+  const handleSaveChanges = async () => {
+    if (!alarm) return;
+    setSaving(true);
+    try {
+      const timeString = `${editedTime.getHours().toString().padStart(2, '0')}:${editedTime.getMinutes().toString().padStart(2, '0')}`;
+      await api.updateAlarm(alarm.id, { 
+        time: timeString,
+        frequency: editedFrequency 
+      });
+      await refreshAlarms();
+      Alert.alert('Sucesso', 'Alarme atualizado com sucesso!');
+      router.back();
+    } catch (error) {
+      Alert.alert('Erro', 'Não foi possível salvar as alterações');
+    } finally {
+      setSaving(false);
+    }
   };
 
   const handleDelete = () => {
@@ -76,9 +122,8 @@ export default function AlarmDetailScreen() {
     );
   };
 
-  const getFrequencyText = () => {
-    if (!alarm) return '';
-    switch (alarm.frequency) {
+  const getFrequencyText = (freq: string) => {
+    switch (freq) {
       case 'daily':
         return 'Todos os dias';
       case 'alternate':
@@ -86,8 +131,12 @@ export default function AlarmDetailScreen() {
       case 'specific':
         return 'Dias específicos';
       default:
-        return alarm.frequency;
+        return freq;
     }
+  };
+
+  const formatTime = (date: Date) => {
+    return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
   };
 
   if (loading) {
