@@ -177,16 +177,21 @@ export default function AlarmDetailScreen() {
 
       <ScrollView style={styles.scrollView}>
         <View style={styles.content}>
-          {/* Horário */}
+          {/* Horário - Editável */}
           <View style={styles.section}>
-            <View style={styles.timeContainer}>
+            <Text style={styles.label}>Horário</Text>
+            <TouchableOpacity 
+              style={styles.timeCard}
+              onPress={() => setShowTimePicker(true)}
+            >
               <Ionicons 
                 name={alarm.is_critical ? "alarm" : "time"} 
-                size={48} 
+                size={32} 
                 color={alarm.is_critical ? COLORS.critical : COLORS.primary} 
               />
-              <Text style={styles.time}>{alarm.time}</Text>
-            </View>
+              <Text style={styles.time}>{formatTime(editedTime)}</Text>
+              <Ionicons name="pencil" size={20} color={COLORS.primary} />
+            </TouchableOpacity>
             {alarm.is_critical && (
               <View style={[styles.badge, { backgroundColor: COLORS.critical }]}>
                 <Text style={styles.badgeText}>CRÍTICO</Text>
@@ -194,12 +199,37 @@ export default function AlarmDetailScreen() {
             )}
           </View>
 
-          {/* Frequência */}
+          {showTimePicker && (
+            <DateTimePicker
+              value={editedTime}
+              mode="time"
+              is24Hour={true}
+              display="spinner"
+              onChange={handleTimeChange}
+            />
+          )}
+
+          {/* Frequência - Editável */}
           <View style={styles.infoSection}>
             <Text style={styles.label}>Frequência</Text>
-            <View style={styles.infoCard}>
-              <Ionicons name="calendar" size={20} color={COLORS.primary} />
-              <Text style={styles.infoText}>{getFrequencyText()}</Text>
+            <View style={styles.frequencyOptions}>
+              {FREQUENCIES.map(freq => (
+                <TouchableOpacity
+                  key={freq.value}
+                  style={[
+                    styles.frequencyOption,
+                    editedFrequency === freq.value && styles.frequencySelected
+                  ]}
+                  onPress={() => handleFrequencyChange(freq.value)}
+                >
+                  <Text style={[
+                    styles.frequencyText,
+                    editedFrequency === freq.value && styles.frequencyTextSelected
+                  ]}>
+                    {freq.label}
+                  </Text>
+                </TouchableOpacity>
+              ))}
             </View>
           </View>
 
@@ -219,7 +249,7 @@ export default function AlarmDetailScreen() {
 
           {/* Status */}
           <View style={styles.infoSection}>
-            <Text style={styles.label}>Status</Text>
+            <Text style={styles.label}>Status (Ativar/Desativar)</Text>
             <TouchableOpacity
               style={[
                 styles.statusCard,
@@ -238,12 +268,13 @@ export default function AlarmDetailScreen() {
             </TouchableOpacity>
           </View>
 
-          {/* Botão de teste */}
+          {/* Botão de Salvar */}
           <Button
-            title="🔔 Testar Alarme Agora"
-            onPress={handleTestAlarm}
+            title="💾 Salvar alterações"
+            onPress={handleSaveChanges}
             variant="primary"
-            style={styles.testButton}
+            loading={saving}
+            style={styles.saveButton}
           />
 
           {/* Botão de exclusão */}
