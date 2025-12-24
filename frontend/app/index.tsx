@@ -3,10 +3,10 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, ActivityIn
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useApp } from '../../src/context/AppContext';
-import { LoadingScreen } from '../../src/components/LoadingScreen';
-import { COLORS, PROFILE_COLORS } from '../../src/utils/constants';
-import { api } from '../../src/utils/api';
+import { useApp } from '../src/context/AppContext';
+import { LoadingScreen } from '../src/components/LoadingScreen';
+import { COLORS, PROFILE_COLORS } from '../src/utils/constants';
+import { api } from '../src/utils/api';
 
 export default function Index() {
   const { profiles, currentProfile, setCurrentProfile, refreshProfiles, loading, deleteProfile } = useApp();

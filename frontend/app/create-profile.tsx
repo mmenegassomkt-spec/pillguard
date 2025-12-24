@@ -3,11 +3,11 @@ import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity } from 
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { COLORS, PROFILE_COLORS, PROFILE_AVATARS } from '../../src/utils/constants';
-import { api } from '../../src/utils/api';
-import { Button } from '../../src/components/Button';
-import { useApp } from '../../src/context/AppContext';
-import { useCustomAlert } from '../../src/components/CustomAlert';
+import { COLORS, PROFILE_COLORS, PROFILE_AVATARS } from '../src/utils/constants';
+import { api } from '../src/utils/api';
+import { Button } from '../src/components/Button';
+import { useApp } from '../src/context/AppContext';
+import { useCustomAlert } from '../src/components/CustomAlert';
 
 export default function CreateProfileScreen() {
   const router = useRouter();
