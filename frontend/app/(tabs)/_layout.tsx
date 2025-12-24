@@ -2,17 +2,22 @@ import React from 'react';
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '../utils/constants';
-import { Platform, View, Text, StyleSheet, Image } from 'react-native';
+import { Platform, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { triggerReviewPrompt } from '../hooks/useReviewPrompt';
 
 const LogoHeader = () => (
-  <View style={styles.logoContainer}>
+  <TouchableOpacity 
+    style={styles.logoContainer}
+    onPress={triggerReviewPrompt}
+    activeOpacity={0.7}
+  >
     <Image 
       source={require('../../assets/images/pillguard-logo.png')} 
       style={styles.logoImage}
       resizeMode="contain"
     />
-  </View>
+  </TouchableOpacity>
 );
 
 export default function TabLayout() {
