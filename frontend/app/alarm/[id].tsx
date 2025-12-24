@@ -225,6 +225,7 @@ export default function AlarmDetailScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <AlertComponent />
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color={COLORS.white} />
