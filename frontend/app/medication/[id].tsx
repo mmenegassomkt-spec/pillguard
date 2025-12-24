@@ -215,29 +215,35 @@ export default function MedicationDetailScreen() {
               <View style={styles.stockInfo}>
                 <Ionicons 
                   name={isLowStock ? "warning" : "cube"} 
-                  size={32} 
+                  size={28} 
                   color={isLowStock ? COLORS.warning : COLORS.primary} 
                 />
-                <View style={styles.stockTextContainer}>
+                <View style={styles.stockNumberRow}>
                   <Text style={styles.stockNumber}>{medication.stock_quantity}</Text>
                   <Text style={styles.stockLabel}>unidades</Text>
-                  {isLowStock && (
-                    <Text style={styles.lowStockWarning}>Estoque baixo!</Text>
-                  )}
                 </View>
+                {isLowStock && (
+                  <Text style={styles.lowStockWarning}>Estoque baixo!</Text>
+                )}
               </View>
               <View style={styles.stockControls}>
                 <TouchableOpacity 
-                  style={styles.stockButton}
+                  style={styles.stockButtonSmall}
                   onPress={() => handleUpdateStock(-1)}
                 >
-                  <Ionicons name="remove" size={24} color={COLORS.white} />
+                  <Ionicons name="remove" size={20} color={COLORS.white} />
                 </TouchableOpacity>
                 <TouchableOpacity 
-                  style={[styles.stockButton, { backgroundColor: COLORS.success }]}
+                  style={[styles.stockButtonSmall, { backgroundColor: COLORS.success }]}
                   onPress={() => handleUpdateStock(1)}
                 >
-                  <Ionicons name="add" size={24} color={COLORS.white} />
+                  <Ionicons name="add" size={20} color={COLORS.white} />
+                </TouchableOpacity>
+                <TouchableOpacity 
+                  style={[styles.stockButtonSmall, { backgroundColor: COLORS.primary }]}
+                  onPress={() => router.back()}
+                >
+                  <Text style={styles.okButtonText}>OK</Text>
                 </TouchableOpacity>
               </View>
             </View>
