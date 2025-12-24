@@ -3,13 +3,13 @@ import { View, Text, StyleSheet, ScrollView, RefreshControl, TouchableOpacity } 
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useApp } from '../_context/AppContext';
-import { ProfileHeader } from '../_components/ProfileHeader';
-import { api } from '../_utils/api';
-import { AlarmLog } from '../_types';
-import { COLORS } from '../_utils/constants';
+import { useApp } from '../../src/context/AppContext';
+import { ProfileHeader } from '../../src/components/ProfileHeader';
+import { api } from '../../src/utils/api';
+import { AlarmLog } from '../../src/types';
+import { COLORS } from '../../src/utils/constants';
 import { format } from 'date-fns';
-import { useCustomAlert } from '../_components/CustomAlert';
+import { useCustomAlert } from '../../src/components/CustomAlert';
 
 export default function HistoryScreen() {
   const { currentProfile } = useApp();

@@ -3,12 +3,12 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, TextInput,
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useApp } from '../_context/AppContext';
-import { Medication } from '../_types';
-import { COLORS, PRIORITY_COLORS } from '../_utils/constants';
-import { api } from '../_utils/api';
-import { Button } from '../_components/Button';
-import { useCustomAlert } from '../_components/CustomAlert';
+import { useApp } from '../../src/context/AppContext';
+import { Medication } from '../../src/types';
+import { COLORS, PRIORITY_COLORS } from '../../src/utils/constants';
+import { api } from '../../src/utils/api';
+import { Button } from '../../src/components/Button';
+import { useCustomAlert } from '../../src/components/CustomAlert';
 
 export default function MedicationDetailScreen() {
   const { id } = useLocalSearchParams();

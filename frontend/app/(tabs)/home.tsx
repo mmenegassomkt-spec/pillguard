@@ -3,11 +3,11 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, RefreshControl } 
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useApp } from '../_context/AppContext';
-import { ProfileHeader } from '../_components/ProfileHeader';
-import { ReviewPrompt } from '../_components/ReviewPrompt';
-import { useReviewPrompt } from '../_hooks/useReviewPrompt';
-import { COLORS } from '../_utils/constants';
+import { useApp } from '../../src/context/AppContext';
+import { ProfileHeader } from '../../src/components/ProfileHeader';
+import { ReviewPrompt } from '../../src/components/ReviewPrompt';
+import { useReviewPrompt } from '../../src/hooks/useReviewPrompt';
+import { COLORS } from '../../src/utils/constants';
 import { format } from 'date-fns';
 
 export default function HomeScreen() {
