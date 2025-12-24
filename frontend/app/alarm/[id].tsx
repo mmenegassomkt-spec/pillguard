@@ -32,6 +32,7 @@ export default function AlarmDetailScreen() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
   const { medications, refreshAlarms } = useApp();
+  const { showAlert, AlertComponent } = useCustomAlert();
   const [alarm, setAlarm] = useState<Alarm | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
