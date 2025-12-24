@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, RefreshControl } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, RefreshControl, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -9,10 +9,12 @@ import { api } from '../utils/api';
 import { AlarmLog } from '../types';
 import { COLORS } from '../utils/constants';
 import { format } from 'date-fns';
+import { useCustomAlert } from '../components/CustomAlert';
 
 export default function HistoryScreen() {
   const { currentProfile } = useApp();
   const router = useRouter();
+  const { showAlert, AlertComponent } = useCustomAlert();
   const [logs, setLogs] = useState<AlarmLog[]>([]);
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -43,6 +45,32 @@ export default function HistoryScreen() {
     setRefreshing(false);
   };
 
+  const handleClearHistory = () => {
+    showAlert(
+      'Limpar Histórico',
+      'Tem certeza que deseja apagar todo o histórico?\n\nEsta ação não pode ser desfeita.',
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Limpar',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              if (currentProfile) {
+                await api.clearAlarmLogs(currentProfile.id);
+                setLogs([]);
+                showAlert('Sucesso', 'Histórico limpo com sucesso', undefined, 'success');
+              }
+            } catch (error) {
+              showAlert('Erro', 'Não foi possível limpar o histórico', undefined, 'error');
+            }
+          },
+        },
+      ],
+      'confirm'
+    );
+  };
+
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'taken':
@@ -71,7 +99,20 @@ export default function HistoryScreen() {
 
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
+      <AlertComponent />
       <ProfileHeader />
+      
+      {/* Header com botão Limpar */}
+      {logs.length > 0 && (
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>Histórico</Text>
+          <TouchableOpacity style={styles.clearButton} onPress={handleClearHistory}>
+            <Ionicons name="trash-outline" size={18} color={COLORS.critical} />
+            <Text style={styles.clearButtonText}>Limpar</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+
       {logs.length > 0 ? (
         <ScrollView 
           style={styles.scrollView}
@@ -114,6 +155,35 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.background,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.border,
+    backgroundColor: COLORS.white,
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: COLORS.text,
+  },
+  clearButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 8,
+    backgroundColor: COLORS.critical + '15',
+    gap: 4,
+  },
+  clearButtonText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: COLORS.critical,
   },
   scrollView: {
     flex: 1,
