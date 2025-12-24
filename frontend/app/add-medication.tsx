@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, Alert, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -9,10 +9,12 @@ import { api } from './utils/api';
 import { Button } from './components/Button';
 import { ProfileHeader } from './components/ProfileHeader';
 import { useApp } from './context/AppContext';
+import { useCustomAlert } from './components/CustomAlert';
 
 export default function AddMedicationScreen() {
   const router = useRouter();
   const { currentProfile, refreshMedications } = useApp();
+  const { showAlert, AlertComponent } = useCustomAlert();
   
   const [name, setName] = useState('');
   const [dosage, setDosage] = useState('');
@@ -48,7 +50,7 @@ export default function AddMedicationScreen() {
   const takePhoto = async (type: 'prescription' | 'box') => {
     const { status } = await ImagePicker.requestCameraPermissionsAsync();
     if (status !== 'granted') {
-      Alert.alert('Permissão negada', 'Precisamos de permissão para acessar a câmera');
+      showAlert('Permissão negada', 'Precisamos de permissão para acessar a câmera', undefined, 'warning');
       return;
     }
 
@@ -70,30 +72,31 @@ export default function AddMedicationScreen() {
   };
 
   const handleImageOptions = (type: 'prescription' | 'box') => {
-    Alert.alert(
+    showAlert(
       'Adicionar Foto',
       'Escolha uma opção',
       [
         { text: 'Tirar Foto', onPress: () => takePhoto(type) },
-        { text: 'Escolher da Galeria', onPress: () => pickImage(type) },
+        { text: 'Galeria', onPress: () => pickImage(type) },
         { text: 'Cancelar', style: 'cancel' },
-      ]
+      ],
+      'info'
     );
   };
 
   const handleCreate = async () => {
     if (!currentProfile) {
-      Alert.alert('Erro', 'Nenhum perfil selecionado');
+      showAlert('Erro', 'Nenhum perfil selecionado', undefined, 'error');
       return;
     }
 
     if (!name.trim()) {
-      Alert.alert('Erro', 'Por favor, digite o nome do medicamento');
+      showAlert('Campo obrigatório', 'Por favor, digite o nome do medicamento', undefined, 'warning');
       return;
     }
 
     if (!dosage.trim()) {
-      Alert.alert('Erro', 'Por favor, digite a dosagem');
+      showAlert('Campo obrigatório', 'A dosagem é obrigatória.\n\nExemplo: "1 comprimido", "2 gotas", "10ml"', undefined, 'warning');
       return;
     }
 
@@ -102,7 +105,7 @@ export default function AddMedicationScreen() {
 
     setLoading(true);
     try {
-      await api.createMedication({
+      const medicationData = await api.createMedication({
         profile_id: currentProfile.id,
         name: name.trim(),
         dosage: dosage.trim(),
@@ -117,11 +120,15 @@ export default function AddMedicationScreen() {
       });
       
       await refreshMedications();
-      Alert.alert('Sucesso!', 'Medicamento adicionado com sucesso');
-      router.back();
+      
+      // Navegar de volta para a tela de medicamentos com o ID do novo medicamento
+      router.replace({
+        pathname: '/(tabs)/medications',
+        params: { newMedicationId: medicationData.id }
+      });
     } catch (error) {
       console.error('Error creating medication:', error);
-      Alert.alert('Erro', 'Não foi possível adicionar o medicamento');
+      showAlert('Erro', 'Não foi possível adicionar o medicamento', undefined, 'error');
     } finally {
       setLoading(false);
     }
@@ -131,6 +138,7 @@ export default function AddMedicationScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <AlertComponent />
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color={COLORS.white} />
