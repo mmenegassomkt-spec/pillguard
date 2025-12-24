@@ -12,8 +12,25 @@ const STORAGE_KEYS = {
 const DAYS_BEFORE_FIRST_REVIEW = 15;
 const DAYS_BEFORE_RETRY = 30;
 
+// Estado global para controlar o popup de review
+let globalShowReview: ((show: boolean) => void) | null = null;
+
+export const triggerReviewPrompt = () => {
+  if (globalShowReview) {
+    globalShowReview(true);
+  }
+};
+
 export const useReviewPrompt = () => {
   const [shouldShowReview, setShouldShowReview] = useState(false);
+
+  // Registrar o setter global
+  useEffect(() => {
+    globalShowReview = setShouldShowReview;
+    return () => {
+      globalShowReview = null;
+    };
+  }, []);
 
   useEffect(() => {
     checkReviewEligibility();
@@ -24,7 +41,7 @@ export const useReviewPrompt = () => {
       // Verificar se já avaliou
       const reviewCompleted = await AsyncStorage.getItem(STORAGE_KEYS.REVIEW_COMPLETED);
       if (reviewCompleted === 'true') {
-        return; // Nunca mais mostrar
+        return; // Nunca mais mostrar automaticamente
       }
 
       // Verificar primeira data de uso
@@ -91,6 +108,10 @@ export const useReviewPrompt = () => {
     setShouldShowReview(false);
   }, []);
 
+  const forceShowReview = useCallback(() => {
+    setShouldShowReview(true);
+  }, []);
+
   // Para testes: resetar o estado de avaliação
   const resetReviewState = async () => {
     await AsyncStorage.multiRemove([
@@ -105,6 +126,7 @@ export const useReviewPrompt = () => {
     handleReviewAccepted,
     handleReviewDeclined,
     dismissReview,
+    forceShowReview,
     resetReviewState,
   };
 };
