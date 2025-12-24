@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, RefreshControl } from 'react-native';
-import { useRouter } from 'expo-router';
+import React, { useEffect, useState, useRef } from 'react';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, RefreshControl, Animated } from 'react-native';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useApp } from '../context/AppContext';
@@ -11,7 +11,10 @@ import { COLORS } from '../utils/constants';
 export default function MedicationsScreen() {
   const { medications, refreshMedications, currentProfile } = useApp();
   const router = useRouter();
+  const { newMedicationId } = useLocalSearchParams();
   const [refreshing, setRefreshing] = useState(false);
+  const [highlightedMedicationId, setHighlightedMedicationId] = useState<string | null>(null);
+  const highlightAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     if (!currentProfile) {
@@ -19,10 +22,46 @@ export default function MedicationsScreen() {
     }
   }, [currentProfile]);
 
+  // Efeito para destacar o novo medicamento criado
+  useEffect(() => {
+    if (newMedicationId && typeof newMedicationId === 'string') {
+      setHighlightedMedicationId(newMedicationId);
+      
+      // Animar o destaque
+      Animated.sequence([
+        Animated.timing(highlightAnim, {
+          toValue: 1,
+          duration: 300,
+          useNativeDriver: false,
+        }),
+        Animated.delay(1500),
+        Animated.timing(highlightAnim, {
+          toValue: 0,
+          duration: 500,
+          useNativeDriver: false,
+        }),
+      ]).start(() => {
+        setHighlightedMedicationId(null);
+      });
+    }
+  }, [newMedicationId]);
+
   const onRefresh = async () => {
     setRefreshing(true);
     await refreshMedications();
     setRefreshing(false);
+  };
+
+  const getHighlightStyle = (medicationId: string) => {
+    if (medicationId !== highlightedMedicationId) return {};
+    
+    return {
+      backgroundColor: highlightAnim.interpolate({
+        inputRange: [0, 1],
+        outputRange: ['transparent', 'rgba(76, 175, 80, 0.3)'],
+      }),
+      borderRadius: 12,
+    };
   };
 
   return (
@@ -42,10 +81,12 @@ export default function MedicationsScreen() {
         <FlatList
           data={medications}
           renderItem={({ item }) => (
-            <MedicationCard
-              medication={item}
-              onPress={() => router.push(`/medication/${item.id}`)}
-            />
+            <Animated.View style={getHighlightStyle(item.id)}>
+              <MedicationCard
+                medication={item}
+                onPress={() => router.push(`/medication/${item.id}`)}
+              />
+            </Animated.View>
           )}
           keyExtractor={(item) => item.id}
           contentContainerStyle={styles.listContent}
