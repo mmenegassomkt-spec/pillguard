@@ -172,13 +172,13 @@ export default function AlarmDetailScreen() {
                 [{ text: 'OK', onPress: () => router.back() }],
                 'success'
               );
-              router.back();
             } catch (error) {
-              Alert.alert('Erro', 'Não foi possível excluir o alarme');
+              showAlert('Erro', 'Não foi possível excluir o alarme', undefined, 'error');
             }
           },
         },
-      ]
+      ],
+      'confirm'
     );
   };
 
