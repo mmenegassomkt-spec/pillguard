@@ -278,6 +278,29 @@ export default function AlarmDetailScreen() {
                 </TouchableOpacity>
               ))}
             </View>
+            
+            {/* Calendário para datas específicas */}
+            {editedFrequency === 'specific' && (
+              <View style={styles.calendarContainer}>
+                <Text style={styles.calendarHint}>
+                  Toque nos dias que deseja ativar o alarme ({Object.keys(selectedDates).length} selecionados)
+                </Text>
+                <Calendar
+                  markedDates={selectedDates}
+                  onDayPress={handleDayPress}
+                  minDate={new Date().toISOString().split('T')[0]}
+                  theme={{
+                    todayTextColor: COLORS.primary,
+                    selectedDayBackgroundColor: COLORS.primary,
+                    arrowColor: COLORS.primary,
+                    textDayFontSize: 14,
+                    textMonthFontSize: 16,
+                    textDayHeaderFontSize: 12,
+                  }}
+                  style={styles.calendar}
+                />
+              </View>
+            )}
           </View>
 
           {/* Medicamentos */}
