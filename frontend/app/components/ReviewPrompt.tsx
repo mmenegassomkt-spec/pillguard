@@ -52,7 +52,7 @@ export const ReviewPrompt: React.FC<ReviewPromptProps> = ({
           
           {/* Mensagem */}
           <Text style={styles.message}>
-            Se puder, uma avaliação rápida ajuda muito! ⭐
+            Se puder, uma avaliação rápida ajuda muito! 😉
           </Text>
           
           {/* Botões */}
