@@ -5,6 +5,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useApp } from '../context/AppContext';
 import { ProfileHeader } from '../components/ProfileHeader';
+import { ReviewPrompt } from '../components/ReviewPrompt';
+import { useReviewPrompt } from '../hooks/useReviewPrompt';
 import { COLORS } from '../utils/constants';
 import { format } from 'date-fns';
 
@@ -12,6 +14,7 @@ export default function HomeScreen() {
   const { currentProfile, alarms, medications, stats, refreshAlarms, refreshMedications, refreshStats } = useApp();
   const router = useRouter();
   const [refreshing, setRefreshing] = useState(false);
+  const { shouldShowReview, handleReviewAccepted, handleReviewDeclined, dismissReview } = useReviewPrompt();
 
   useEffect(() => {
     if (!currentProfile) {
@@ -40,6 +43,15 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <ProfileHeader />
+      
+      {/* Popup de avaliação */}
+      <ReviewPrompt
+        visible={shouldShowReview}
+        onAccept={handleReviewAccepted}
+        onDecline={handleReviewDeclined}
+        onDismiss={dismissReview}
+      />
+      
       <ScrollView 
         style={styles.scrollView}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
