@@ -317,6 +317,11 @@ async def get_alarm_logs(profile_id: Optional[str] = None, limit: int = 100):
     logs = await db.alarm_logs.find(query).sort("created_at", -1).limit(limit).to_list(limit)
     return [AlarmLog(id=str(l["_id"]), **{k: v for k, v in l.items() if k != "_id"}) for l in logs]
 
+@api_router.delete("/alarm-logs/{profile_id}")
+async def clear_alarm_logs(profile_id: str):
+    result = await db.alarm_logs.delete_many({"profile_id": profile_id})
+    return {"message": f"Deleted {result.deleted_count} logs", "deleted_count": result.deleted_count}
+
 
 # ===== PREMIUM TRIAL ROUTES =====
 
