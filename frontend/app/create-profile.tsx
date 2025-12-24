@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -7,10 +7,12 @@ import { COLORS, PROFILE_COLORS, PROFILE_AVATARS } from './utils/constants';
 import { api } from './utils/api';
 import { Button } from './components/Button';
 import { useApp } from './context/AppContext';
+import { useCustomAlert } from './components/CustomAlert';
 
 export default function CreateProfileScreen() {
   const router = useRouter();
   const { refreshProfiles } = useApp();
+  const { showAlert, AlertComponent } = useCustomAlert();
   const [name, setName] = useState('');
   const [selectedColor, setSelectedColor] = useState(PROFILE_COLORS[0]);
   const [selectedAvatar, setSelectedAvatar] = useState(PROFILE_AVATARS[0]);
@@ -18,7 +20,7 @@ export default function CreateProfileScreen() {
 
   const handleCreate = async () => {
     if (!name.trim()) {
-      Alert.alert('Erro', 'Por favor, digite um nome para o perfil');
+      showAlert('Atenção', 'Por favor, digite um nome para o perfil', undefined, 'warning');
       return;
     }
 
@@ -29,12 +31,16 @@ export default function CreateProfileScreen() {
         color: selectedColor,
         avatar: selectedAvatar,
       });
-      await refreshProfiles(); // Atualiza a lista de perfis
-      Alert.alert('Sucesso!', 'Perfil criado com sucesso');
-      router.back();
+      await refreshProfiles();
+      showAlert(
+        'Sucesso!', 
+        'Perfil criado com sucesso', 
+        [{ text: 'OK', onPress: () => router.back() }],
+        'success'
+      );
     } catch (error) {
       console.error('Error creating profile:', error);
-      Alert.alert('Erro', 'Não foi possível criar o perfil');
+      showAlert('Erro', 'Não foi possível criar o perfil', undefined, 'error');
     } finally {
       setLoading(false);
     }
@@ -42,6 +48,7 @@ export default function CreateProfileScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <AlertComponent />
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color={COLORS.text} />
