@@ -97,6 +97,7 @@ class AlarmCreate(BaseModel):
     time: str  # HH:mm
     frequency: str  # daily, alternate, specific
     specific_days: Optional[List[int]] = None  # [0-6] for days of week
+    specific_dates: Optional[List[str]] = None  # ['2025-01-15', '2025-01-16'] for specific dates
     medication_ids: List[str]
     is_critical: bool = False
     repeat_interval_minutes: int = 5
@@ -106,6 +107,7 @@ class AlarmUpdate(BaseModel):
     time: Optional[str] = None
     frequency: Optional[str] = None
     specific_days: Optional[List[int]] = None
+    specific_dates: Optional[List[str]] = None
     medication_ids: Optional[List[str]] = None
     is_critical: Optional[bool] = None
     repeat_interval_minutes: Optional[int] = None
@@ -117,6 +119,7 @@ class Alarm(BaseModel):
     time: str
     frequency: str
     specific_days: Optional[List[int]] = None
+    specific_dates: Optional[List[str]] = None
     medication_ids: List[str]
     is_critical: bool
     repeat_interval_minutes: int
