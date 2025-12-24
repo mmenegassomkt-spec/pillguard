@@ -11,12 +11,14 @@
     "description": "App inteligente de controle de medicamentos com alarmes e gestão de estoque",
     "ios": {
       "supportsTablet": true,
+      "bundleIdentifier": "com.pillguard.app",
       "infoPlist": {
         "NSCameraUsageDescription": "Precisamos de acesso à câmera para fotografar receitas e caixas de medicamentos",
         "NSPhotoLibraryUsageDescription": "Precisamos de acesso à galeria para selecionar fotos de receitas e medicamentos"
       }
     },
     "android": {
+      "package": "com.pillguard.app",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#000000"
@@ -25,8 +27,14 @@
       "permissions": [
         "CAMERA",
         "READ_EXTERNAL_STORAGE",
-        "WRITE_EXTERNAL_STORAGE"
-      ]
+        "WRITE_EXTERNAL_STORAGE",
+        "RECEIVE_BOOT_COMPLETED",
+        "VIBRATE",
+        "WAKE_LOCK",
+        "SCHEDULE_EXACT_ALARM",
+        "USE_EXACT_ALARM"
+      ],
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "bundler": "metro",
@@ -43,10 +51,25 @@
           "resizeMode": "contain",
           "backgroundColor": "#000000"
         }
+      ],
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/notification-icon.png",
+          "color": "#4A90E2",
+          "sounds": ["./assets/sounds/alarm.wav"],
+          "androidMode": "default",
+          "androidCollapsedTitle": "PillGuard - Alarmes"
+        }
       ]
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "your-project-id"
+      }
     }
   }
 }
