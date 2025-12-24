@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Medication } from '../_types';
-import { COLORS, PRIORITY_COLORS } from '../_utils/constants';
+import { Medication } from '../types';
+import { COLORS, PRIORITY_COLORS } from '../utils/constants';
 
 interface MedicationCardProps {
   medication: Medication;

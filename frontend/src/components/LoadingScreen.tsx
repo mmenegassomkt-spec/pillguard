@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { COLORS } from '../_utils/constants';
+import { COLORS } from '../utils/constants';
 
 export const LoadingScreen: React.FC = () => {
   return (

@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Profile, Medication, Alarm, PremiumTrial, Stats } from '../_types';
-import { api } from '../_utils/api';
+import { Profile, Medication, Alarm, PremiumTrial, Stats } from '../types';
+import { api } from '../utils/api';
 
 interface AppContextType {
   currentProfile: Profile | null;

@@ -9,7 +9,7 @@ import {
   Dimensions 
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS } from '../_utils/constants';
+import { COLORS } from '../utils/constants';
 
 interface AlertButton {
   text: string;
