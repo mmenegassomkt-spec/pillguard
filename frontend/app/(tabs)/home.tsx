@@ -87,21 +87,27 @@ export default function HomeScreen() {
         )}
 
         {/* Alerta de estoque baixo */}
-        {stats && stats.low_stock_count > 0 && (
+        {medications.filter(med => med.stock_quantity <= med.min_stock_alert).length > 0 && (
           <View style={styles.alertCard}>
             <View style={styles.alertHeader}>
               <Ionicons name="warning" size={24} color={COLORS.warning} />
               <Text style={styles.alertTitle}>Estoque Baixo</Text>
             </View>
-            <Text style={styles.alertText}>
-              {stats.low_stock_count} medicamento(s) com estoque baixo
-            </Text>
-            <TouchableOpacity 
-              style={styles.alertButton}
-              onPress={() => router.push('/(tabs)/medications')}
-            >
-              <Text style={styles.alertButtonText}>Ver medicamentos</Text>
-            </TouchableOpacity>
+            {medications
+              .filter(med => med.stock_quantity <= med.min_stock_alert)
+              .map(med => (
+                <TouchableOpacity 
+                  key={med.id}
+                  style={styles.lowStockItem}
+                  onPress={() => router.push(`/medication/${med.id}`)}
+                >
+                  <Ionicons name="medical" size={18} color={COLORS.warning} />
+                  <Text style={styles.lowStockName}>{med.name}</Text>
+                  <Text style={styles.lowStockQty}>{med.stock_quantity} un.</Text>
+                  <Ionicons name="chevron-forward" size={16} color={COLORS.textLight} />
+                </TouchableOpacity>
+              ))
+            }
           </View>
         )}
 
