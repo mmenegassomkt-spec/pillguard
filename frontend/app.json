@@ -14,7 +14,8 @@
       "bundleIdentifier": "com.pillguard.app",
       "infoPlist": {
         "NSCameraUsageDescription": "Precisamos de acesso à câmera para fotografar receitas e caixas de medicamentos",
-        "NSPhotoLibraryUsageDescription": "Precisamos de acesso à galeria para selecionar fotos de receitas e medicamentos"
+        "NSPhotoLibraryUsageDescription": "Precisamos de acesso à galeria para selecionar fotos de receitas e medicamentos",
+        "UIBackgroundModes": ["remote-notification"]
       }
     },
     "android": {
@@ -32,7 +33,9 @@
         "VIBRATE",
         "WAKE_LOCK",
         "SCHEDULE_EXACT_ALARM",
-        "USE_EXACT_ALARM"
+        "USE_EXACT_ALARM",
+        "POST_NOTIFICATIONS",
+        "FOREGROUND_SERVICE"
       ],
       "googleServicesFile": "./google-services.json"
     },
@@ -52,16 +55,7 @@
           "backgroundColor": "#000000"
         }
       ],
-      [
-        "expo-notifications",
-        {
-          "icon": "./assets/images/notification-icon.png",
-          "color": "#4A90E2",
-          "sounds": ["./assets/sounds/alarm.wav"],
-          "androidMode": "default",
-          "androidCollapsedTitle": "PillGuard - Alarmes"
-        }
-      ]
+      "@notifee/react-native"
     ],
     "experiments": {
       "typedRoutes": true
