@@ -487,37 +487,45 @@ const styles = StyleSheet.create({
   stockInfo: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
-    gap: 16,
+    marginBottom: 12,
+    gap: 12,
   },
-  stockTextContainer: {
+  stockNumberRow: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
     flex: 1,
   },
   stockNumber: {
-    fontSize: 36,
+    fontSize: 32,
     fontWeight: '700',
     color: COLORS.text,
   },
   stockLabel: {
     fontSize: 14,
     color: COLORS.textLight,
+    marginLeft: 6,
   },
   lowStockWarning: {
-    fontSize: 14,
+    fontSize: 12,
     color: COLORS.warning,
     fontWeight: '600',
-    marginTop: 4,
   },
   stockControls: {
     flexDirection: 'row',
-    gap: 12,
+    gap: 10,
   },
-  stockButton: {
+  stockButtonSmall: {
     flex: 1,
-    backgroundColor: COLORS.primary,
-    borderRadius: 12,
-    padding: 16,
+    backgroundColor: COLORS.critical,
+    borderRadius: 10,
+    padding: 12,
     alignItems: 'center',
+    justifyContent: 'center',
+  },
+  okButtonText: {
+    color: COLORS.white,
+    fontSize: 14,
+    fontWeight: '700',
   },
   alertThreshold: {
     fontSize: 12,
