@@ -126,7 +126,7 @@ export default function AlarmDetailScreen() {
     
     // Validar se tem datas selecionadas quando for "Selecionar"
     if (editedFrequency === 'specific' && Object.keys(selectedDates).length === 0) {
-      Alert.alert('Atenção', 'Selecione pelo menos uma data para o alarme.');
+      showAlert('Atenção', 'Selecione pelo menos uma data para o alarme.', undefined, 'warning');
       return;
     }
     
@@ -140,17 +140,21 @@ export default function AlarmDetailScreen() {
         specific_dates: editedFrequency === 'specific' ? specificDates : []
       });
       await refreshAlarms();
-      Alert.alert('Sucesso', 'Alarme atualizado com sucesso!');
-      router.back();
+      showAlert(
+        'Sucesso', 
+        'Alarme atualizado com sucesso!', 
+        [{ text: 'OK', onPress: () => router.back() }],
+        'success'
+      );
     } catch (error) {
-      Alert.alert('Erro', 'Não foi possível salvar as alterações');
+      showAlert('Erro', 'Não foi possível salvar as alterações', undefined, 'error');
     } finally {
       setSaving(false);
     }
   };
 
   const handleDelete = () => {
-    Alert.alert(
+    showAlert(
       'Confirmar exclusão',
       'Tem certeza que deseja excluir este alarme?',
       [
@@ -162,7 +166,12 @@ export default function AlarmDetailScreen() {
             try {
               await api.deleteAlarm(id as string);
               await refreshAlarms();
-              Alert.alert('Sucesso', 'Alarme excluído');
+              showAlert(
+                'Sucesso', 
+                'Alarme excluído', 
+                [{ text: 'OK', onPress: () => router.back() }],
+                'success'
+              );
               router.back();
             } catch (error) {
               Alert.alert('Erro', 'Não foi possível excluir o alarme');
