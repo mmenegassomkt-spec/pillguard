@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, Image, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -8,11 +8,13 @@ import { Medication } from '../types';
 import { COLORS, PRIORITY_COLORS } from '../utils/constants';
 import { api } from '../utils/api';
 import { Button } from '../components/Button';
+import { useCustomAlert } from '../components/CustomAlert';
 
 export default function MedicationDetailScreen() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
   const { refreshMedications } = useApp();
+  const { showAlert, AlertComponent } = useCustomAlert();
   const [medication, setMedication] = useState<Medication | null>(null);
   const [loading, setLoading] = useState(true);
   const [editingName, setEditingName] = useState(false);
@@ -32,7 +34,7 @@ export default function MedicationDetailScreen() {
       setEditedDosage(data.dosage);
     } catch (error) {
       console.error('Error loading medication:', error);
-      Alert.alert('Erro', 'Não foi possível carregar o medicamento');
+      showAlert('Erro', 'Não foi possível carregar o medicamento', undefined, 'error');
     } finally {
       setLoading(false);
     }
@@ -45,9 +47,9 @@ export default function MedicationDetailScreen() {
       await loadMedication();
       await refreshMedications();
       setEditingName(false);
-      Alert.alert('Sucesso', 'Nome atualizado');
+      showAlert('Sucesso', 'Nome atualizado', undefined, 'success');
     } catch (error) {
-      Alert.alert('Erro', 'Não foi possível atualizar o nome');
+      showAlert('Erro', 'Não foi possível atualizar o nome', undefined, 'error');
     }
   };
 
@@ -58,14 +60,14 @@ export default function MedicationDetailScreen() {
       await loadMedication();
       await refreshMedications();
       setEditingDosage(false);
-      Alert.alert('Sucesso', 'Dosagem atualizada');
+      showAlert('Sucesso', 'Dosagem atualizada', undefined, 'success');
     } catch (error) {
-      Alert.alert('Erro', 'Não foi possível atualizar a dosagem');
+      showAlert('Erro', 'Não foi possível atualizar a dosagem', undefined, 'error');
     }
   };
 
   const handleDelete = () => {
-    Alert.alert(
+    showAlert(
       'Confirmar exclusão',
       'Tem certeza que deseja excluir este medicamento?',
       [
@@ -77,14 +79,14 @@ export default function MedicationDetailScreen() {
             try {
               await api.deleteMedication(id as string);
               await refreshMedications();
-              Alert.alert('Sucesso', 'Medicamento excluído');
               router.back();
             } catch (error) {
-              Alert.alert('Erro', 'Não foi possível excluir o medicamento');
+              showAlert('Erro', 'Não foi possível excluir o medicamento', undefined, 'error');
             }
           },
         },
-      ]
+      ],
+      'confirm'
     );
   };
 
