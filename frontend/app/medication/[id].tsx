@@ -98,7 +98,7 @@ export default function MedicationDetailScreen() {
       await loadMedication();
       await refreshMedications();
     } catch (error) {
-      Alert.alert('Erro', 'Não foi possível atualizar o estoque');
+      showAlert('Erro', 'Não foi possível atualizar o estoque', undefined, 'error');
     }
   };
 
