@@ -1,33 +1,51 @@
-import { Stack } from 'expo-router';
+import { Stack, router } from 'expo-router';
 import { COLORS } from './_utils/constants';
 import { AppProvider } from './_context/AppContext';
 import { useEffect } from 'react';
 import * as Notifications from 'expo-notifications';
-import { useRouter } from 'expo-router';
 import { Platform } from 'react-native';
 
-export default function RootLayout() {
-  const router = useRouter();
+// Configuração de notificações (deve estar fora do componente)
+if (Platform.OS !== 'web') {
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: true,
+      shouldShowBanner: true,
+      shouldShowList: true,
+    }),
+  });
+}
 
+export default function RootLayout() {
   useEffect(() => {
     // Só adiciona listener de notificações em plataformas nativas
     if (Platform.OS === 'web') return;
     
+    let subscription: Notifications.EventSubscription | null = null;
+    
     try {
       // Listener para quando o usuário toca na notificação
-      const subscription = Notifications.addNotificationResponseReceivedListener(response => {
+      subscription = Notifications.addNotificationResponseReceivedListener(response => {
         const data = response.notification.request.content.data;
         
-        if (data.alarmId) {
-          // Navegar para tela de confirmação
-          router.push(`/alarm-confirm?alarmId=${data.alarmId}`);
+        if (data?.alarmId) {
+          // Usar setTimeout para garantir que o router esteja pronto
+          setTimeout(() => {
+            router.push(`/alarm-confirm?alarmId=${data.alarmId}`);
+          }, 100);
         }
       });
-
-      return () => subscription.remove();
     } catch (error) {
       console.log('Notifications not supported:', error);
     }
+
+    return () => {
+      if (subscription) {
+        subscription.remove();
+      }
+    };
   }, []);
 
   return (
