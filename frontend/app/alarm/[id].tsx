@@ -11,9 +11,9 @@ import { Button } from '../components/Button';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 const FREQUENCIES = [
-  { value: 'daily', label: 'Todos os dias' },
-  { value: 'alternate', label: 'Dias alternados' },
-  { value: 'specific', label: 'Dias específicos' },
+  { value: 'daily', label: 'Todo dia' },
+  { value: 'alternate', label: 'Alternado' },
+  { value: 'specific', label: 'Selecionar' },
 ];
 
 export default function AlarmDetailScreen() {
