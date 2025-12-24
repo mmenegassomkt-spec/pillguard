@@ -339,24 +339,29 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   section: {
-    marginBottom: 32,
+    marginBottom: 24,
     alignItems: 'center',
   },
-  timeContainer: {
+  timeCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
+    backgroundColor: COLORS.white,
+    borderRadius: 12,
+    padding: 16,
+    gap: 12,
+    width: '100%',
   },
   time: {
-    fontSize: 48,
+    fontSize: 40,
     fontWeight: '700',
     color: COLORS.text,
-    marginLeft: 16,
+    flex: 1,
   },
   badge: {
     paddingHorizontal: 16,
     paddingVertical: 6,
     borderRadius: 12,
+    marginTop: 12,
   },
   badgeText: {
     color: COLORS.white,
@@ -364,13 +369,38 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   infoSection: {
-    marginBottom: 24,
+    marginBottom: 20,
   },
   label: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '600',
     color: COLORS.text,
-    marginBottom: 12,
+    marginBottom: 10,
+  },
+  frequencyOptions: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  frequencyOption: {
+    backgroundColor: COLORS.white,
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    borderWidth: 2,
+    borderColor: COLORS.border,
+  },
+  frequencySelected: {
+    borderColor: COLORS.primary,
+    backgroundColor: COLORS.primary + '10',
+  },
+  frequencyText: {
+    fontSize: 13,
+    color: COLORS.textLight,
+  },
+  frequencyTextSelected: {
+    color: COLORS.primary,
+    fontWeight: '600',
   },
   infoCard: {
     flexDirection: 'row',
@@ -389,7 +419,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: COLORS.white,
     borderRadius: 12,
-    padding: 16,
+    padding: 14,
     marginBottom: 8,
     gap: 12,
   },
@@ -397,21 +427,21 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   medName: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '600',
     color: COLORS.text,
   },
   medDosage: {
-    fontSize: 14,
+    fontSize: 13,
     color: COLORS.textLight,
-    marginTop: 4,
+    marginTop: 2,
   },
   statusCard: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: COLORS.white,
     borderRadius: 12,
-    padding: 16,
+    padding: 14,
     gap: 12,
     borderWidth: 2,
   },
@@ -422,12 +452,15 @@ const styles = StyleSheet.create({
     borderColor: COLORS.critical,
   },
   statusText: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '600',
     color: COLORS.text,
   },
+  saveButton: {
+    marginTop: 8,
+  },
   deleteButtonBottom: {
-    marginTop: 16,
+    marginTop: 12,
     marginBottom: 40,
   },
 });
