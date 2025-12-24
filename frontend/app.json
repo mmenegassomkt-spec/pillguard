@@ -53,8 +53,7 @@
           "resizeMode": "contain",
           "backgroundColor": "#000000"
         }
-      ],
-      "@notifee/react-native"
+      ]
     ],
     "experiments": {
       "typedRoutes": true
