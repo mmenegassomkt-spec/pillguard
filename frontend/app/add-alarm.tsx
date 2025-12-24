@@ -250,11 +250,11 @@ export default function AddAlarmScreen() {
                 style={styles.premiumOption}
                 onPress={() => {
                   if (!isPremiumActive) {
-                    Alert.alert(
-                      'Funcionalidade Premium',
-                      'Alarmes críticos são uma funcionalidade premium. Ative o trial gratuito nas configurações!',
-                      [{ text: 'OK' }]
-                    );
+                    showAlert({
+                      title: 'Funcionalidade Premium',
+                      message: 'Alarmes críticos são uma funcionalidade premium. Ative o trial gratuito nas configurações!',
+                      buttons: [{ text: 'OK', style: 'default' }]
+                    });
                     return;
                   }
                   setIsCritical(!isCritical);
