@@ -101,19 +101,14 @@ export default function AddAlarmScreen() {
       
       await refreshAlarms();
       
-      Alert.alert(
-        'Alarme Criado!', 
-        '⚠️ IMPORTANTE: Notificações automáticas requerem um build de desenvolvimento.\n\nNo Expo Go, você pode:\n• Ver seus alarmes na lista\n• Testar manualmente clicando no alarme',
-        [
-          {
-            text: 'Entendi',
-            onPress: () => router.back(),
-          },
-        ]
-      );
+      // Navegar de volta para a tela de alarmes com o ID do novo alarme
+      router.replace({
+        pathname: '/(tabs)/alarms',
+        params: { newAlarmId: alarmData.id }
+      });
     } catch (error) {
       console.error('Error creating alarm:', error);
-      Alert.alert('Erro', 'Não foi possível criar o alarme');
+      showAlert('Erro', 'Não foi possível criar o alarme', undefined, 'error');
     } finally {
       setLoading(false);
     }
