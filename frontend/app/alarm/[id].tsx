@@ -68,7 +68,7 @@ export default function AlarmDetailScreen() {
       setHasChanges(false);
     } catch (error) {
       console.error('Error loading alarm:', error);
-      Alert.alert('Erro', 'Não foi possível carregar o alarme');
+      showAlert('Erro', 'Não foi possível carregar o alarme', undefined, 'error');
     } finally {
       setLoading(false);
     }
@@ -80,12 +80,14 @@ export default function AlarmDetailScreen() {
       await api.updateAlarm(alarm.id, { is_active: !alarm.is_active });
       await refreshAlarms();
       await loadAlarm();
-      Alert.alert(
+      showAlert(
         'Sucesso',
-        alarm.is_active ? 'Alarme desativado' : 'Alarme ativado'
+        alarm.is_active ? 'Alarme desativado' : 'Alarme ativado',
+        undefined,
+        'success'
       );
     } catch (error) {
-      Alert.alert('Erro', 'Não foi possível atualizar o alarme');
+      showAlert('Erro', 'Não foi possível atualizar o alarme', undefined, 'error');
     }
   };
 
