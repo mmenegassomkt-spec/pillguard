@@ -2,7 +2,7 @@
   "expo": {
     "name": "PillGuard",
     "slug": "pillguard",
-    "version": "1.0.0",
+    "version": "1.0.26",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "pillguard",
@@ -20,6 +20,7 @@
     },
     "android": {
       "package": "com.pillguard.app",
+      "versionCode": 26,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#000000"
