@@ -4,12 +4,12 @@ import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as ImagePicker from 'expo-image-picker';
-import { COLORS, PRIORITY_COLORS } from './utils/constants';
-import { api } from './utils/api';
-import { Button } from './components/Button';
-import { ProfileHeader } from './components/ProfileHeader';
-import { useApp } from './context/AppContext';
-import { useCustomAlert } from './components/CustomAlert';
+import { COLORS, PRIORITY_COLORS } from './_utils/constants';
+import { api } from './_utils/api';
+import { Button } from './_components/Button';
+import { ProfileHeader } from './_components/ProfileHeader';
+import { useApp } from './_context/AppContext';
+import { useCustomAlert } from './_components/CustomAlert';
 
 export default function AddMedicationScreen() {
   const router = useRouter();

@@ -3,11 +3,11 @@ import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useApp } from './context/AppContext';
-import { COLORS } from './utils/constants';
-import { api } from './utils/api';
-import { Button } from './components/Button';
-import { NotificationService } from './services/NotificationService';
+import { useApp } from './_context/AppContext';
+import { COLORS } from './_utils/constants';
+import { api } from './_utils/api';
+import { Button } from './_components/Button';
+import { NotificationService } from './_services/NotificationService';
 
 export default function AlarmConfirmScreen() {
   const { alarmId } = useLocalSearchParams();

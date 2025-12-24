@@ -4,13 +4,13 @@ import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { COLORS, FREQUENCIES, WEEKDAYS } from './utils/constants';
-import { api } from './utils/api';
-import { Button } from './components/Button';
-import { ProfileHeader } from './components/ProfileHeader';
-import { useApp } from './context/AppContext';
-import { Medication } from './types';
-import { useCustomAlert } from './components/CustomAlert';
+import { COLORS, FREQUENCIES, WEEKDAYS } from './_utils/constants';
+import { api } from './_utils/api';
+import { Button } from './_components/Button';
+import { ProfileHeader } from './_components/ProfileHeader';
+import { useApp } from './_context/AppContext';
+import { Medication } from './_types';
+import { useCustomAlert } from './_components/CustomAlert';
 
 export default function AddAlarmScreen() {
   const router = useRouter();
