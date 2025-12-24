@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -10,10 +10,12 @@ import { Button } from './components/Button';
 import { ProfileHeader } from './components/ProfileHeader';
 import { useApp } from './context/AppContext';
 import { Medication } from './types';
+import { useCustomAlert } from './components/CustomAlert';
 
 export default function AddAlarmScreen() {
   const router = useRouter();
   const { currentProfile, medications, refreshAlarms, premiumTrial } = useApp();
+  const { showAlert, AlertComponent } = useCustomAlert();
   
   const [time, setTime] = useState(new Date());
   const [showTimePicker, setShowTimePicker] = useState(false);
@@ -37,10 +39,11 @@ export default function AddAlarmScreen() {
     } else {
       // Premium check: múltiplos medicamentos
       if (selectedMedications.length >= 1 && !isPremiumActive) {
-        Alert.alert(
+        showAlert(
           'Funcionalidade Premium',
           'Adicionar múltiplos medicamentos em um alarme é uma funcionalidade premium. Ative o trial gratuito nas configurações!',
-          [{ text: 'OK' }]
+          undefined,
+          'warning'
         );
         return;
       }
@@ -58,26 +61,27 @@ export default function AddAlarmScreen() {
 
   const handleCreate = async () => {
     if (!currentProfile) {
-      Alert.alert('Erro', 'Nenhum perfil selecionado');
+      showAlert('Erro', 'Nenhum perfil selecionado', undefined, 'error');
       return;
     }
 
     if (selectedMedications.length === 0) {
-      Alert.alert('Erro', 'Selecione pelo menos um medicamento');
+      showAlert('Atenção', 'Selecione pelo menos um medicamento', undefined, 'warning');
       return;
     }
 
     if (frequency === 'specific' && specificDays.length === 0) {
-      Alert.alert('Erro', 'Selecione pelo menos um dia da semana');
+      showAlert('Atenção', 'Selecione pelo menos um dia da semana', undefined, 'warning');
       return;
     }
 
     // Premium check: alarmes críticos
     if (isCritical && !isPremiumActive) {
-      Alert.alert(
+      showAlert(
         'Funcionalidade Premium',
         'Alarmes críticos são uma funcionalidade premium. Ative o trial gratuito nas configurações!',
-        [{ text: 'OK' }]
+        undefined,
+        'warning'
       );
       return;
     }
